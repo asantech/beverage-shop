@@ -10,10 +10,10 @@ function TabPane(props: any) {
   const { id: tabID } = props.tab;
   const { loading } = useSelector((state: any) => state.req);
   const beverages = useSelector((state: any) => state.beverages);
-  const { lists: beverageLists, currentTabID } = beverages;
+  const { categories: productCategories, currentTabID } = beverages;
 
   const hasCurrentListItems = itemsHelpers.hasListItems(
-    beverageLists,
+    productCategories,
     currentTabID
   );
 
@@ -37,7 +37,7 @@ function TabPane(props: any) {
       )}
       {tabID === currentTabID &&
         hasCurrentListItems &&
-        beverageLists[currentTabID].list.map((itemDetails: CardDetails) => (
+        productCategories[currentTabID].list.map((itemDetails: CardDetails) => (
           <Card
             key={itemDetails.id}
             addiClassName='mx-2 mb-2 p-2'

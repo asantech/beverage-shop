@@ -5,11 +5,13 @@ import Btn from '../../common/buttons/Button';
 import SortIcon from './SortIcon';
 
 function SortBar(props: any) {
-  const { currentTabID, lists } = useSelector((state: any) => state.beverages);
+  const { currentTabID, categories: productCategories } = useSelector(
+    (state: any) => state.beverages
+  );
   const { by, order } = props.sort;
 
   function changeSortHandler(sortBy: 'name' | 'abv') {
-    const currentListSortOrder = lists[currentTabID].sort.order;
+    const currentListSortOrder = productCategories[currentTabID].sort.order;
     const isSortByBtnClicked = by === sortBy;
     const newSortOrder = isSortByBtnClicked
       ? currentListSortOrder === 'asc'
@@ -17,18 +19,21 @@ function SortBar(props: any) {
         : 'asc'
       : currentListSortOrder;
 
+    const newSort = {
+      by: sortBy,
+      order: newSortOrder,
+    };
+
     beverageActions.setSort({
       id: currentTabID,
-      sort: {
-        by: sortBy,
-        order: newSortOrder,
-      },
+      sort: newSort,
     });
 
     beverageActions.setData({
       id: currentTabID,
-      list: lists[currentTabID].list,
-      page: lists[currentTabID].page,
+      list: productCategories[currentTabID].list,
+      page: productCategories[currentTabID].page,
+      sort: newSort,
     });
   }
 

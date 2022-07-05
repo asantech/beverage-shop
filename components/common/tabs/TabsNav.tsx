@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import SortBar from './../../sorting/SortBar/SortBar';
 
 function TabsNav(props: any) {
-  const { currentTabID, lists } = useSelector((state: any) => state.beverages);
+  const { currentTabID, categories:productCategories } = useSelector(
+    (state: any) => state.beverages
+  );
 
   function tabItemOnClickHandler({ id, lbl, path }: any) {
     props.navItemOnClickHandler({ id, lbl, path });
@@ -15,7 +17,9 @@ function TabsNav(props: any) {
     <ul className='nav nav-tabs justify-content-center position-relative'>
       {props.links.map(({ id, lbl, path }: any) => (
         <li key={path} className='nav-item'>
-          {currentTabID === id && <SortBar sort={lists[currentTabID].sort} />}
+          {currentTabID === id && (
+            <SortBar sort={productCategories[currentTabID].sort} />
+          )}
           <Button
             id={id + '-tab'}
             className={'nav-link' + (currentTabID === id ? ' active' : '')}

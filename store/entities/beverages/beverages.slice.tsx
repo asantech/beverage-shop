@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+ 
 
 import store from '../../index';
 
@@ -8,19 +9,30 @@ import * as urlHelpers from '../../../utils/helpers/url.helpers';
 
 import * as itemHelpers from '../../../utils/helpers/items.helpers';
 
+export interface Sort {
+  by: 'name' | 'abv';
+  order: 'asc' | 'desc';
+}
+
+interface Category {
+  list: any[];
+  sort: Sort;
+  page: number;
+}
+
 interface InitialState {
   currentTabID: string;
-  lists: any;
+  categories: any;
 }
 
 const initialState: InitialState = {
   currentTabID: '',
-  lists: {
+  categories: {
     '': {
       list: [],
       sort: {
         by: 'name',
-        order: 'desc',
+        order: 'asc',
       },
       page: 1,
     },
@@ -28,7 +40,7 @@ const initialState: InitialState = {
       list: [],
       sort: {
         by: 'name',
-        order: 'desc',
+        order: 'asc',
       },
       page: 1,
     },
@@ -36,7 +48,7 @@ const initialState: InitialState = {
       list: [],
       sort: {
         by: 'name',
-        order: 'desc',
+        order: 'asc',
       },
       page: 1,
     },
@@ -51,20 +63,16 @@ const slice = createSlice({
       const { id, list, page }: { id: string; list: []; page: number } =
         action.payload;
 
-      const sortedlist = itemHelpers.sort([...list], state.lists[id].sort);
-
-      state.lists[id].list = sortedlist;
-      state.lists[id].page = page;
+      state.categories[id].list = list;
+      state.categories[id].page = page;
     },
     setCurrentTab: (state, action) => {
       state.currentTabID = action.payload.id;
     },
     setSort: (state, action) => {
       const { id, sort }: { id: string; sort: any } = action.payload;
-      const { by, order } = sort;
 
-      by && (state.lists[id].sort.by = by);
-      order && (state.lists[id].sort.order = order);
+      state.categories[id].sort = sort;
     },
   },
 });
@@ -79,12 +87,13 @@ export const setCurrentTab = (params: any) => {
 };
 
 export const setData = (params: any) => {
-  const { id, list, page } = params;
+  const { id, list, page, sort } = params;
 
+  const sortedlist = itemHelpers.sort([...list], sort);
   store.dispatch(
     slice.actions.setData({
       id,
-      list,
+      list: sortedlist,
       page,
     })
   );
@@ -92,7 +101,9 @@ export const setData = (params: any) => {
 
 export const loadData = async (params: any) => {
   // todo: should this be here or at beverage service?
-  // console.log(process.env.BASE_URL, process.env.BEERS_URL);
+ 
+  process.env.NEXT_PUBLIC_BASE_URL;
+  process.env.NEXT_PUBLIC_BEERS_URL;
   let result;
   let urlParams = urlHelpers.createdURLQueryObj(params.tabID, params.page);
   result = await apiService.callAPI({

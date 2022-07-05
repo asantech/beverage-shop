@@ -17,17 +17,19 @@ import * as itemsHelpers from '../utils/helpers/items.helpers';
 
 interface BeverageSliceData {
   currentTabID: string;
-  lists: any;
+  categories: any;
 }
 
 const Home: NextPage = () => {
   const router = useRouter();
 
-  const { currentTabID, lists: beverageLists }: BeverageSliceData = useSelector(
-    (state: any) => state.beverages
-  );
+  const { currentTabID, categories: productCategories }: BeverageSliceData =
+    useSelector((state: any) => state.beverages);
 
-  const currentPage = itemsHelpers.getCurrentPage(beverageLists, currentTabID);
+  const currentPage = itemsHelpers.getCurrentPage(
+    productCategories,
+    currentTabID
+  );
 
   useEffect(() => {
     if (
@@ -48,6 +50,7 @@ const Home: NextPage = () => {
           id: currentTabID,
           list: result,
           page: currentPage,
+          sort: productCategories[currentTabID].sort,
         });
       })();
     } else {
@@ -58,7 +61,7 @@ const Home: NextPage = () => {
   async function onNavItemClickHandler(params: any) {
     const { id: currentTabID } = params;
     const currentPage = itemsHelpers.getCurrentPage(
-      beverageLists,
+      productCategories,
       currentTabID
     );
     beverageActions.setCurrentTab({
@@ -74,11 +77,12 @@ const Home: NextPage = () => {
       id: currentTabID,
       list: result,
       page: currentPage,
+      sort: productCategories[currentTabID].sort,
     });
   }
 
   const hasCurrentListItems = itemsHelpers.hasListItems(
-    beverageLists,
+    productCategories,
     currentTabID
   );
 
@@ -105,6 +109,7 @@ const Home: NextPage = () => {
             id: currentTabID,
             list: result,
             page: currentPage,
+            sort: productCategories[currentTabID].sort,
           });
         }}
         nextBtnDisabled={!hasCurrentListItems}
