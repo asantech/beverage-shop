@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import TabsNav from '../components/common/tabs/TabsNav';
 import TabContent from '../components/common/tabs/TabContent';
@@ -83,6 +84,9 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Home</title>
+      </Head>
       <TabsNav
         links={beverageConsts.beveragesNavLinks}
         navItemOnClickHandler={onNavItemClickHandler}

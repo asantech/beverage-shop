@@ -8,6 +8,7 @@ import store from '../store/index';
 import ItemInfoModal from '../components/common/modal/ItemInfoModal';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

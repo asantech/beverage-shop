@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import store from '../../index';
 
 interface InitialState {
-  details: any;
+  data: any;
   showModal: boolean;
 }
 
 const initialState: InitialState = {
-  details: null,
+  data: {},
   showModal: false,
 };
 
@@ -17,7 +17,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setData: (state, action) => {
-      state.details = action.payload.details;
+      state.data = action.payload.data;
     },
     showModal: (state, action) => {
       state.showModal = action.payload.showModal;
@@ -25,10 +25,10 @@ const slice = createSlice({
   },
 });
 
-export const setData = (details: any) => {
+export const setData = (data: any) => {
   store.dispatch(
     slice.actions.setData({
-      details,
+      data,
     })
   );
 };
@@ -36,7 +36,7 @@ export const setData = (details: any) => {
 export const removeData = () => {
   store.dispatch(
     slice.actions.setData({
-      details: null,
+      data: {},
     })
   );
 };

@@ -4,20 +4,21 @@ export type Btn = {
   onClickHandler?: any;
   disabled?: true | false;
   role?: string;
-  children: any;
+  children?: any;
 };
 
 function Btn(props: Btn) {
-  const { id, className, onClickHandler, disabled, role, children } = props;
+  const { id, className, role, disabled, onClickHandler, children, ...rest } =
+    props;
   return (
     <button
-      // {...props}
       id={id}
       type='button'
       className={className ?? ''}
       role={role ?? 'button'}
       disabled={disabled ?? false}
       onClick={onClickHandler}
+      {...rest}
     >
       {children}
     </button>

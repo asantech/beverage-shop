@@ -8,16 +8,25 @@ export type CardDetails = {
   addiClassName?: string;
   name: string;
   tagline: string;
+  abv: number;
+  description: string;
+  srm: number;
 };
 
 function Card(props: CardDetails) {
-  const { id, image_url, name, tagline, addiClassName, abv } = props;
+  const { id, image_url, name, tagline, abv, description, srm, addiClassName } =
+    props;
 
   function cardOnClickHandler() {
     beverageInfoActions.setData({
-      name,
-      tagline,
-      abv,
+      imgURL: image_url,
+      details: {
+        name,
+        tagline,
+        abv,
+        description,
+        srm,
+      },
     });
     beverageInfoActions.showModal();
   }
@@ -29,18 +38,25 @@ function Card(props: CardDetails) {
       style={{ width: '200px' }}
       onClick={cardOnClickHandler}
     >
-      {image_url && (
-        <Image
-          src={image_url}
-          alt={name}
-          width={100}
-          height={150}
-          // blurDataURL="data:..." automatically provided
-          // placeholder="blur" // Optional blur-up while loading
-        />
-      )}
-      <div className='card-body'>
-        <h5 className='card-title'>{name}</h5>
+      <div className='d-flex'>
+        <i className='bi-star text-warning'></i>
+        <i className='bi-cart ms-auto text-success'></i>
+      </div>
+
+      <div className='card-body text-center px-0'>
+        {image_url && (
+          <Image
+            src={image_url}
+            alt={name}
+            width={100}
+            height={150}
+            // blurDataURL="data:..." automatically provided
+            // placeholder="blur" // Optional blur-up while loading
+          />
+        )}
+        <h5 className='card-title h5'>
+          {name}-<span className='h6 text-muted'>({abv})</span>
+        </h5>
         <p className='card-text'>{tagline}</p>
       </div>
     </div>
