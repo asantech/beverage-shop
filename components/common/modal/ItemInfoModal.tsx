@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from 'lodash';
 
@@ -7,14 +7,31 @@ import Btn from '../buttons/Button';
 
 import * as beverageInfoActions from './../../../store/entities/beverages/beverageInfo.slice';
 
+import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
+
 function ItemInfoModal() {
+  const modalRef: any = useRef();
+
   const { showModal, data } = useSelector((state: any) => state.beverageInfo);
   const { imgURL, details } = data;
-  const modalRef: any = useRef();
+
+  const [isFavorite, setIsFavorite] = useState(
+    details && favoriteActions.isFavorite({ id: details.id })
+  );
+
+  function ResetModal() {
+    setIsFavorite(false);
+  }
 
   function closeBtnOnClickHandler() {
     beverageInfoActions.hideModal();
     beverageInfoActions.removeData();
+    ResetModal();
+  }
+
+  function addToFavoriteBtnOnClickHandler() {
+    favoriteActions.add(details);
+    setIsFavorite(favoriteActions.isFavorite({ id: details.id }));
   }
 
   return (
@@ -64,10 +81,24 @@ function ItemInfoModal() {
                 ))}
             </div>
             <div className='modal-footer'>
-              <Btn className='btn btn-primary'>
-                <i className='bi-star-fill'></i>
-              </Btn>
-              <Btn className='btn btn-success'>
+              {!isFavorite ? (
+                <Btn
+                  id='add-to-favorites-btn'
+                  className='btn btn-primary'
+                  onClickHandler={addToFavoriteBtnOnClickHandler}
+                >
+                  <i className='bi-star-fill'></i>
+                </Btn>
+              ) : (
+                <Btn
+                  id='remove-from-favorites-btn'
+                  className='btn btn-danger'
+                  onClickHandler={addToFavoriteBtnOnClickHandler}
+                >
+                  <i className='bi-star-fill'></i>
+                </Btn>
+              )}
+              <Btn id='add-to-cart-btn' className='btn btn-success'>
                 <i className='bi-cart-plus-fill'></i>
               </Btn>
             </div>

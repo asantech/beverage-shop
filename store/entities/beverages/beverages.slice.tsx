@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
- 
 
 import store from '../../index';
 
@@ -101,9 +100,9 @@ export const setData = (params: any) => {
 
 export const loadData = async (params: any) => {
   // todo: should this be here or at beverage service?
- 
-  process.env.NEXT_PUBLIC_BASE_URL;
-  process.env.NEXT_PUBLIC_BEERS_URL;
+
+  process.env.BASE_URL;
+  process.env.BEERS_URL;
   let result;
   let urlParams = urlHelpers.createdURLQueryObj(params.tabID, params.page);
   result = await apiService.callAPI({

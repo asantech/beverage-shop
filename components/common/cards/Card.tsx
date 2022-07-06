@@ -1,6 +1,13 @@
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
 
 import * as beverageInfoActions from './../../../store/entities/beverages/beverageInfo.slice';
+
+import FavoriteIcon from '../icons/FavoriteIcon';
+import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
+
+import ItemInfoModal from '../modal/ItemInfoModal';
+import ReactDOM from 'react-dom';
 
 export type CardDetails = {
   id: string;
@@ -14,13 +21,17 @@ export type CardDetails = {
 };
 
 function Card(props: CardDetails) {
+  const favoritesList = useSelector((state: any) => state.favorites.list);
   const { id, image_url, name, tagline, abv, description, srm, addiClassName } =
     props;
+
+  const isFavorite: boolean = favoriteActions.isFavorite({ id });
 
   function cardOnClickHandler() {
     beverageInfoActions.setData({
       imgURL: image_url,
       details: {
+        id,
         name,
         tagline,
         abv,
@@ -39,7 +50,7 @@ function Card(props: CardDetails) {
       onClick={cardOnClickHandler}
     >
       <div className='d-flex'>
-        <i className='bi-star text-warning'></i>
+        <FavoriteIcon filled={isFavorite} />
         <i className='bi-cart ms-auto text-success'></i>
       </div>
 

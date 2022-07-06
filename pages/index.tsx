@@ -14,6 +14,7 @@ import * as beverageActions from '../store/entities/beverages/beverages.slice';
 import * as beverageConsts from '../utils/constants/beverages.constants';
 
 import * as itemsHelpers from '../utils/helpers/items.helpers';
+import * as expirationHelpers from '../utils/helpers/expiration.helpers.tsx';
 
 interface BeverageSliceData {
   currentTabID: string;
@@ -53,6 +54,9 @@ const Home: NextPage = () => {
           sort: productCategories[currentTabID].sort,
         });
       })();
+
+      expirationHelpers.initializeExpirableDataToStorage('favorites');
+      expirationHelpers.initializeExpirableDataToStorage('cart');
     } else {
       router.push('404');
     }

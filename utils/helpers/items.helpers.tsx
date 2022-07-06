@@ -1,4 +1,4 @@
-import { has, isEmpty, result, sortBy } from 'lodash';
+import { has, isEmpty } from 'lodash';
 
 export function hasListItems(beverageLists: any, currentTabID: string) {
   const hasListProp = has(beverageLists, [currentTabID, 'list']);
