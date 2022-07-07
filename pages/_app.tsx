@@ -1,12 +1,12 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 
 import Layout from '../components/layout/Layout';
 import store from '../store/index';
 
-import ItemInfoModal from '../components/common/modal/ItemInfoModal';
+import { createRoot } from 'react-dom/client';
 
+import '../styles/globals.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 
@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-      <ItemInfoModal />
+      <div id='modals-root'></div>
     </Provider>
   );
 }

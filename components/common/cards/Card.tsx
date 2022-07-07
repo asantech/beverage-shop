@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
-import * as beverageInfoActions from './../../../store/entities/beverages/beverageInfo.slice';
+import { createRoot } from 'react-dom/client';
 
-import FavoriteIcon from '../icons/FavoriteIcon';
+import SwitchableIcon from '../icons/SwitchableIcon';
 import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
+import * as cartActions from './../../../store/entities/cart/cart.slice';
 
 import ItemInfoModal from '../modal/ItemInfoModal';
-import ReactDOM from 'react-dom';
 
 export type CardDetails = {
   id: string;
@@ -21,25 +21,46 @@ export type CardDetails = {
 };
 
 function Card(props: CardDetails) {
-  const favoritesList = useSelector((state: any) => state.favorites.list);
   const { id, image_url, name, tagline, abv, description, srm, addiClassName } =
     props;
 
-  const isFavorite: boolean = favoriteActions.isFavorite({ id });
+  const [isFavorite, setIsFavorite] = useState(
+    favoriteActions.isFavorite({ id })
+  );
+
+  const [isInCart, setIsInCart] = useState(cartActions.isInCart({ id }));
+
+  const setIsFavoriteState = (state: any) => {
+    setIsFavorite(state);
+  };
+
+  const setIsInCartState = (state: any) => {
+    setIsInCart(state);
+  };
 
   function cardOnClickHandler() {
-    beverageInfoActions.setData({
-      imgURL: image_url,
-      details: {
-        id,
-        name,
-        tagline,
-        abv,
-        description,
-        srm,
-      },
-    });
-    beverageInfoActions.showModal();
+    //@ts-ignore
+    const modalsRoot = createRoot(document.getElementById('modals-root'));
+
+    modalsRoot.render(
+      <ItemInfoModal
+        data={{
+          details: {
+            id,
+            name,
+            tagline,
+            abv,
+            description,
+            srm,
+            image_url,
+          },
+        }}
+        isFavorite={isFavorite}
+        isInCart={isInCart}
+        setIsFavoriteState={setIsFavoriteState}
+        setIsInCartState={setIsInCartState}
+      />
+    );
   }
 
   return (
@@ -50,8 +71,23 @@ function Card(props: CardDetails) {
       onClick={cardOnClickHandler}
     >
       <div className='d-flex'>
-        <FavoriteIcon filled={isFavorite} />
-        <i className='bi-cart ms-auto text-success'></i>
+        <SwitchableIcon
+          isFilled={isFavorite}
+          classNames={{
+            filled: 'bi-star-fill',
+            unfilled: 'bi-star',
+            color: 'text-warning',
+          }}
+        />
+        <SwitchableIcon
+          isFilled={isInCart}
+          classNames={{
+            addi: 'ms-auto',
+            filled: 'bi-cart-fill',
+            unfilled: 'bi-cart',
+            color: 'text-success',
+          }}
+        />
       </div>
 
       <div className='card-body text-center px-0'>

@@ -13,7 +13,7 @@ const initialState: InitialState = {
 };
 
 const slice = createSlice({
-  name: 'favorites',
+  name: 'cart',
   initialState,
   reducers: {
     setList: (state, action) => {
@@ -43,9 +43,9 @@ export const add = (product: any) => {
       product,
     })
   );
-  expirationHelpers.setExpirableDataToStorage('favorites', {
-    data: store.getState().favorites.list,
-    expirationDuration: storageConsts.expirationDurations.favorite,
+  expirationHelpers.setExpirableDataToStorage('cart', {
+    data: store.getState().cart.list,
+    expirationDuration: storageConsts.expirationDurations.cart,
   });
 };
 
@@ -56,23 +56,23 @@ export const del = (product: any) => {
       product,
     })
   );
-  expirationHelpers.setExpirableDataToStorage('favorites', {
-    data: store.getState().favorites.list,
-    expirationDuration: storageConsts.expirationDurations.favorite,
+  expirationHelpers.setExpirableDataToStorage('cart', {
+    data: store.getState().cart.list,
+    expirationDuration: storageConsts.expirationDurations.cart,
   });
 };
 
-export const isFavorite = (product: any) => {
+export const isInCart = (product: any) => {
   // todo: dry principle
   const { id: selectedProductID } = product;
-  const favoritesList = store.getState().favorites.list;
-  let isFavorite = false;
-  favoritesList.forEach((product: any) => {
+  const cartList = store.getState().cart.list;
+  let isInCart = false;
+  cartList.forEach((product: any) => {
     if (product.id === selectedProductID) {
-      return (isFavorite = true);
+      return (isInCart = true);
     }
   });
-  return isFavorite;
+  return isInCart;
 };
 
 export default slice.reducer;

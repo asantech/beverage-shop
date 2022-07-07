@@ -1,19 +1,21 @@
 import type { NextPage } from 'next';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import TabsNav from '../components/common/tabs/TabsNav';
 import TabContent from '../components/common/tabs/TabContent';
 import Pagination from '../components/layout/navigation/pagination/Pagination';
 
-import { useSelector } from 'react-redux';
-
 import * as beverageActions from '../store/entities/beverages/beverages.slice';
+import * as favoriteActions from '../store/entities/favorites/favorites.slice';
+import * as cartActions from '../store/entities/cart/cart.slice';
 
 import * as beverageConsts from '../utils/constants/beverages.constants';
 
 import * as itemsHelpers from '../utils/helpers/items.helpers';
+import * as storageHelpers from '../utils/helpers/storage.helpers';
 import * as expirationHelpers from '../utils/helpers/expiration.helpers.tsx';
 
 interface BeverageSliceData {
@@ -57,6 +59,9 @@ const Home: NextPage = () => {
 
       expirationHelpers.initializeExpirableDataToStorage('favorites');
       expirationHelpers.initializeExpirableDataToStorage('cart');
+
+      favoriteActions.setList(storageHelpers.getStoredVal('favorites').data);
+      cartActions.setList(storageHelpers.getStoredVal('cart').data);
     } else {
       router.push('404');
     }

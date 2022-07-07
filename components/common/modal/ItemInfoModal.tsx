@@ -1,50 +1,68 @@
 import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { map } from 'lodash';
 
 import Image from 'next/image';
 import Btn from '../buttons/Button';
 
-import * as beverageInfoActions from './../../../store/entities/beverages/beverageInfo.slice';
-
 import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
+import * as cartActions from './../../../store/entities/cart/cart.slice';
 
-function ItemInfoModal() {
+function ItemInfoModal(props: any) {
   const modalRef: any = useRef();
 
-  const { showModal, data } = useSelector((state: any) => state.beverageInfo);
-  const { imgURL, details } = data;
+  const { data, setIsFavoriteState, setIsInCartState } = props;
+  const { details } = data;
 
-  const [isFavorite, setIsFavorite] = useState(
-    details && favoriteActions.isFavorite({ id: details.id })
-  );
+  const [isFavorite, setIsFavorite] = useState(props.isFavorite);
+  const [isInCart, setIsInCart] = useState(props.isInCart);
 
-  function ResetModal() {
-    setIsFavorite(false);
-  }
+  const [showModal, setShowModal] = useState(true);
 
   function closeBtnOnClickHandler() {
-    beverageInfoActions.hideModal();
-    beverageInfoActions.removeData();
-    ResetModal();
+    setShowModal(false);
   }
 
   function addToFavoriteBtnOnClickHandler() {
     favoriteActions.add(details);
-    setIsFavorite(favoriteActions.isFavorite({ id: details.id }));
+    const isFavorite = favoriteActions.isFavorite({ id: details.id });
+    setIsFavorite(isFavorite);
+    setIsFavoriteState(isFavorite);
   }
+
+  function delFromFavoriteBtnOnClickHandler() {
+    favoriteActions.del(details);
+    const isFavorite = favoriteActions.isFavorite({ id: details.id });
+    setIsFavorite(isFavorite);
+    setIsFavoriteState(isFavorite);
+  }
+
+  function addToCartBtnOnClickHandler() {
+    cartActions.add(details);
+    const isInCart = cartActions.isInCart({ id: details.id });
+    setIsInCart(isInCart);
+    setIsInCartState(isInCart);
+  }
+
+  function delFromCartBtnOnClickHandler() {
+    cartActions.del(details);
+    const isInCart = cartActions.isInCart({ id: details.id });
+    setIsInCart(isInCart);
+    setIsInCartState(isInCart);
+  }
+
+  if (showModal === false) return <></>;
 
   return (
     // todo: use portal
     <>
       <div
         ref={modalRef}
-        className={'modal fade' + (showModal ? ' show' : '')}
+        className='modal fade show'
         id='item-info-modal'
         aria-labelledby='item-info-modal-lbl'
         tabIndex={-1} // todo: search what is it for
-        {...(showModal ? { 'aria-modal': true } : { 'aria-hidden': true })}
-        style={{ display: showModal ? 'block' : 'none' }}
+        aria-modal={true}
+        style={{ display: 'block' }}
         onClick={(e: any) =>
           e.target === modalRef.current && closeBtnOnClickHandler()
         }
@@ -64,21 +82,20 @@ function ItemInfoModal() {
             </div>
             <div className='modal-body'>
               <div className='img-container text-center mb-3'>
-                {imgURL && (
+                {details.image_url && (
                   <Image
-                    src={imgURL}
+                    src={details.image_url}
                     alt={details.name}
                     width={100}
                     height={150}
                   />
                 )}
               </div>
-              {details &&
-                map(details, (detail: any, i: number) => (
-                  <p key={i} className='mb-1'>
-                    <span className='fw-bold'>{i}</span> : {detail}
-                  </p>
-                ))}
+              {map(details, (detail: any, i: number) => (
+                <p key={i} className='mb-1'>
+                  <span className='fw-bold'>{i}</span> : {detail}
+                </p>
+              ))}
             </div>
             <div className='modal-footer'>
               {!isFavorite ? (
@@ -93,24 +110,36 @@ function ItemInfoModal() {
                 <Btn
                   id='remove-from-favorites-btn'
                   className='btn btn-danger'
-                  onClickHandler={addToFavoriteBtnOnClickHandler}
+                  onClickHandler={delFromFavoriteBtnOnClickHandler}
                 >
                   <i className='bi-star-fill'></i>
                 </Btn>
               )}
-              <Btn id='add-to-cart-btn' className='btn btn-success'>
-                <i className='bi-cart-plus-fill'></i>
-              </Btn>
+              {!isInCart ? (
+                <Btn
+                  id='add-to-cart-btn'
+                  className='btn btn-success'
+                  onClickHandler={addToCartBtnOnClickHandler}
+                >
+                  <i className='bi-cart-plus-fill'></i>
+                </Btn>
+              ) : (
+                <Btn
+                  id='remove-from-cart-btn'
+                  className='btn btn-danger'
+                  onClickHandler={delFromCartBtnOnClickHandler}
+                >
+                  <i className='bi-cart-plus-fill'></i>
+                </Btn>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {showModal && (
-        <div
-          className='modal-backdrop fade show'
-          onClick={closeBtnOnClickHandler}
-        ></div>
-      )}
+      <div
+        className='modal-backdrop fade show'
+        onClick={closeBtnOnClickHandler}
+      ></div>
     </>
   );
 }
