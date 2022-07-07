@@ -13,7 +13,7 @@ function Favourites() {
         <title>Favourites</title>
       </Head>
       <h1>Favourites</h1>
-      <div className="d-flex flex-wrap justify-content-center">
+      <div className='d-flex flex-wrap justify-content-center'>
         {!hasCurrentListItems && (
           <div className='alert alert-danger mt-5' role='alert'>
             <div className='h4'>no beverages in favourites...</div>
@@ -28,7 +28,7 @@ function Favourites() {
                 key={itemDetails.id}
                 addiClassName='mx-2 mb-2 p-2'
                 {...itemDetails}
-                id={'beverage-details-card-' + itemDetails.id} // todo: check the order later
+                id={itemDetails.id} // todo: check the order later
               />
             )
           )}

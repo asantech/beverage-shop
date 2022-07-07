@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import Layout from '../components/layout/Layout';
 import store from '../store/index';
 
-import { createRoot } from 'react-dom/client';
-
 import '../styles/globals.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
@@ -13,10 +11,11 @@ import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
+      <div id='modals-container'></div>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-      <div id='modals-root'></div>
+      <div id='toasts-container'></div>
     </Provider>
   );
 }

@@ -50,6 +50,14 @@ function ItemInfoModal(props: any) {
     setIsInCartState(isInCart);
   }
 
+  const mappedDetails = (({ name, tagline, abv, description, srm }) => ({
+    name,
+    tagline,
+    abv,
+    description,
+    srm,
+  }))(details);
+
   if (showModal === false) return <></>;
 
   return (
@@ -91,7 +99,7 @@ function ItemInfoModal(props: any) {
                   />
                 )}
               </div>
-              {map(details, (detail: any, i: number) => (
+              {map(mappedDetails, (detail: any, i: number) => (
                 <p key={i} className='mb-1'>
                   <span className='fw-bold'>{i}</span> : {detail}
                 </p>

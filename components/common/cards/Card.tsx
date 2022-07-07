@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
@@ -24,6 +24,16 @@ function Card(props: CardDetails) {
   const { id, image_url, name, tagline, abv, description, srm, addiClassName } =
     props;
 
+  const productDetails = {
+    id,
+    name,
+    tagline,
+    abv,
+    description,
+    srm,
+    image_url,
+  };
+
   const [isFavorite, setIsFavorite] = useState(
     favoriteActions.isFavorite({ id })
   );
@@ -40,20 +50,12 @@ function Card(props: CardDetails) {
 
   function cardOnClickHandler() {
     //@ts-ignore
-    const modalsRoot = createRoot(document.getElementById('modals-root'));
+    const modalsRoot = createRoot(document.getElementById('modals-container'));
 
     modalsRoot.render(
       <ItemInfoModal
         data={{
-          details: {
-            id,
-            name,
-            tagline,
-            abv,
-            description,
-            srm,
-            image_url,
-          },
+          details: productDetails,
         }}
         isFavorite={isFavorite}
         isInCart={isInCart}
@@ -100,6 +102,14 @@ function Card(props: CardDetails) {
             // blurDataURL="data:..." automatically provided
             // placeholder="blur" // Optional blur-up while loading
           />
+        )}
+        {!image_url && (
+          <div
+            className='empty-img-placeholder bg-light text-muted rounded-3 d-flex justify-content-center align-items-center mb-2'
+            style={{ minHeight: '150px' }}
+          >
+            no image
+          </div>
         )}
         <h5 className='card-title h5'>
           {name}-<span className='h6 text-muted'>({abv})</span>

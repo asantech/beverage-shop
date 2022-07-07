@@ -28,7 +28,7 @@ function Cart() {
                 key={itemDetails.id}
                 addiClassName='mx-2 mb-2 p-2'
                 {...itemDetails}
-                id={'beverage-details-card-' + itemDetails.id} // todo: check the order later
+                id={itemDetails.id} // todo: check the order later
               />
             )
           )}
