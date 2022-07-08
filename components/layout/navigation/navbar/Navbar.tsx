@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { PageLinkSettings } from '../../../../utils/constants/navbar.constants';
+import type { PageLinkSettings } from '../../../../utils/constants/pages.constants';
 
 function Navbar({
   navLinks,

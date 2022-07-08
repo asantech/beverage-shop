@@ -9,7 +9,7 @@ import * as productActions from '../store/entities/products/products.slice';
 import * as favoriteActions from '../store/entities/favorites/favorites.slice';
 import * as cartActions from '../store/entities/cart/cart.slice';
 
-import * as productsConsts from '../utils/constants/product.constants';
+import * as productsConsts from '../utils/constants/products.constants';
 
 import * as itemsHelpers from '../utils/helpers/items.helpers';
 import * as storageHelpers from '../utils/helpers/storage.helpers';

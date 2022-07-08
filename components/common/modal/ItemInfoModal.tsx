@@ -61,7 +61,6 @@ function ItemInfoModal(props: any) {
   if (showModal === false) return <></>;
 
   return (
-    // todo: use portal
     <>
       <div
         ref={modalRef}
@@ -92,7 +91,7 @@ function ItemInfoModal(props: any) {
               <div className='img-container text-center mb-3'>
                 {details.image_url && (
                   <Image
-                    src={details.image_url}
+                    src={details.image_url} // todo: use placeholder & other nessecary configs
                     alt={details.name}
                     width={100}
                     height={150}

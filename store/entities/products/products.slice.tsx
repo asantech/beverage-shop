@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { createRoot } from 'react-dom/client';
-
 import store from '../../index';
 
 import * as apiService from '../../../services/api/api.service';
@@ -10,6 +8,8 @@ import * as urlHelpers from '../../../utils/helpers/url.helpers';
 import * as itemHelpers from '../../../utils/helpers/items.helpers';
 
 import Toast from '../../../components/common/toasts/Toast';
+
+import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
 
 export interface Sort {
   by: 'name' | 'abv';
@@ -104,7 +104,6 @@ export const setData = (params: any) => {
 
 export const loadData = async (params: any) => {
   // todo: should this be here or at beverage service?
-
   let result;
   let urlParams = urlHelpers.createdURLQueryObj(params.tabID, params.page);
   result = await apiService.callAPI({
@@ -112,14 +111,9 @@ export const loadData = async (params: any) => {
     url: process.env.NEXT_PUBLIC_BEERS_URL,
     params: urlParams, // todo: check the naming later
     afterSuccess: function () {
-      const toastsContainerRoot = createRoot(
-        //@ts-ignore
-        document.getElementById('toasts-container')
-      );
-
-      toastsContainerRoot.render(
-        <Toast role='success' msgs={'products succesfully loaded'} />
-      );
+      rootElementsHelpers
+        .getRootElement('toastsContainer')
+        .render(<Toast role='success' msgs={'products succesfully loaded'} />);
     },
   });
   return result;

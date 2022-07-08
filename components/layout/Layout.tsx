@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
-import { navLinks } from '../../utils/constants/navbar.constants';
+import { navLinks } from '../../utils/constants/pages.constants';
 import styles from './Layout.module.scss';
 
 const DynamicNavbar = dynamic(() => import('./navigation/navbar/Navbar'), {

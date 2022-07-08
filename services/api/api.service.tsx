@@ -7,6 +7,8 @@ import { createRoot } from 'react-dom/client';
 
 import Toast from './../../components/common/toasts/Toast';
 
+import * as rootElementsHelpers from './../../utils/helpers/rootElements.helpers';
+
 interface APICfg {
   baseURL: any; // todo: fix later
   url: any; // todo: fix later
@@ -20,13 +22,9 @@ interface APICfg {
 }
 
 axios.interceptors.response.use(undefined, error => {
-  //@ts-ignore
-  const toastsContainerRoot = createRoot(
-    //@ts-ignore
-    document.getElementById('toasts-container')
-  );
-
-  toastsContainerRoot.render(<Toast msgs={error.message} />);
+  rootElementsHelpers
+    .getRootElement('toastsContainer')
+    .render(<Toast msgs={error.message} />);
 
   return Promise.reject(error);
 });

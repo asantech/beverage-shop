@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { createRoot } from 'react-dom/client';
-
 import SwitchableIcon from '../icons/SwitchableIcon';
 import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
 import * as cartActions from './../../../store/entities/cart/cart.slice';
+
+import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
 
 import ItemInfoModal from '../modal/ItemInfoModal';
 
@@ -49,10 +49,7 @@ function Card(props: CardDetails) {
   };
 
   function cardOnClickHandler() {
-    //@ts-ignore
-    const modalsRoot = createRoot(document.getElementById('modals-container'));
-
-    modalsRoot.render(
+    rootElementsHelpers.getRootElement('modalsContainer').render(
       <ItemInfoModal
         data={{
           details: productDetails,

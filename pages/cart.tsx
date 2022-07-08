@@ -2,24 +2,24 @@ import { useSelector } from 'react-redux';
 
 import Head from 'next/head';
 import Card from '../components/common/cards/Card';
+import Alert from '../components/common/alerts/Alert';
+
+import { isEmpty } from 'lodash';
 
 function Cart() {
   const cartList = useSelector((state: any) => state.cart.list);
-  const hasCurrentListItems = !(cartList.length === 0);
+  const isCartEmpty: boolean = isEmpty(cartList);
 
   return (
+    // todo: get from the page settings cont obj
     <div>
       <Head>
         <title>Cart</title>
       </Head>
       <h1>Cart</h1>
       <div className='d-flex flex-wrap justify-content-center'>
-        {!hasCurrentListItems && (
-          <div className='alert alert-danger mt-5' role='alert'>
-            <div className='h4'>no products in cart...</div>
-          </div>
-        )}
-        {hasCurrentListItems &&
+        {isCartEmpty && <Alert msgs='no products in cart...' />}
+        {!isCartEmpty && // todo: get the alert msg (up there) from the consts file
           cartList.map(
             (
               itemDetails: any // todo: set the type later on
