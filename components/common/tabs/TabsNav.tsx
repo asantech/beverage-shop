@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import SortBar from './../../sorting/SortBar/SortBar';
 
 function TabsNav(props: any) {
-  const { currentTabID, categories:productCategories } = useSelector(
-    (state: any) => state.beverages
+  const { currentTabID, categories: productCategories } = useSelector(
+    (state: any) => state.products
   );
 
   function tabItemOnClickHandler({ id, lbl, path }: any) {

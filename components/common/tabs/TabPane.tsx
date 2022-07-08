@@ -1,21 +1,28 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import OverlayedSpinner from '../spinners/OverlayedSpinner';
-
-import * as itemsHelpers from '../../../utils/helpers/items.helpers';
-
+import { isEmpty } from 'lodash';
 import type { CardDetails } from '../cards/Card';
+
+import OverlayedSpinner from '../spinners/OverlayedSpinner';
 import Card from '../cards/Card';
+import Alert from '../alerts/Alert';
+
+let isInitialLoad: boolean = true;
 
 function TabPane(props: any) {
   const { id: tabID } = props.tab;
   const { loading } = useSelector((state: any) => state.req);
-  const beverages = useSelector((state: any) => state.beverages);
-  const { categories: productCategories, currentTabID } = beverages;
-
-  const hasCurrentListItems = itemsHelpers.hasListItems(
-    productCategories,
-    currentTabID
+  const { categories: productCategories, currentTabID } = useSelector(
+    (state: any) => state.products
   );
+  const productsList = productCategories[currentTabID].list;
+  const isCurrentTab: boolean = tabID === currentTabID;
+
+  const isListItemsEmpty: boolean = isEmpty(productsList);
+
+  useEffect(() => {
+    isInitialLoad = false;
+  }, []);
 
   return (
     <div
@@ -30,19 +37,19 @@ function TabPane(props: any) {
       aria-labelledby={tabID + '-tab'}
     >
       {loading && <OverlayedSpinner />}
-      {tabID === currentTabID && !loading && !hasCurrentListItems && (
-        <div className='alert alert-danger mt-5' role='alert'>
-          <div className='h4'>no beverages to load...</div>
-        </div>
-      )}
-      {tabID === currentTabID &&
-        hasCurrentListItems &&
-        productCategories[currentTabID].list.map((itemDetails: CardDetails) => (
+      {isCurrentTab &&
+        !loading &&
+        !isInitialLoad &&
+        isListItemsEmpty && ( // get alert msg from consts file
+          <Alert msgs='no beverages to load...' />
+        )}
+      {isCurrentTab &&
+        !isListItemsEmpty &&
+        productsList.map((productDetails: CardDetails) => (
           <Card
-            key={itemDetails.id}
+            key={productDetails.id}
             addiClassName='mx-2 mb-2 p-2'
-            {...itemDetails}
-            id={itemDetails.id} // todo: check the order later
+            {...productDetails}
           />
         ))}
     </div>

@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { createRoot } from 'react-dom/client';
+
 import store from '../../index';
 
 import * as apiService from '../../../services/api/api.service';
 
 import * as urlHelpers from '../../../utils/helpers/url.helpers';
-
 import * as itemHelpers from '../../../utils/helpers/items.helpers';
+
+import Toast from '../../../components/common/toasts/Toast';
 
 export interface Sort {
   by: 'name' | 'abv';
@@ -14,6 +17,7 @@ export interface Sort {
 }
 
 interface Category {
+  // todo: find the code to apply this type
   list: any[];
   sort: Sort;
   page: number;
@@ -55,7 +59,7 @@ const initialState: InitialState = {
 };
 
 const slice = createSlice({
-  name: 'beverages',
+  name: 'products',
   initialState,
   reducers: {
     setData: (state, action) => {
@@ -86,7 +90,7 @@ export const setCurrentTab = (params: any) => {
 };
 
 export const setData = (params: any) => {
-  const { id, list, page, sort } = params;
+  const { id, list = [], page, sort } = params;
 
   const sortedlist = itemHelpers.sort([...list], sort);
   store.dispatch(
@@ -101,14 +105,22 @@ export const setData = (params: any) => {
 export const loadData = async (params: any) => {
   // todo: should this be here or at beverage service?
 
-  process.env.BASE_URL;
-  process.env.BEERS_URL;
   let result;
   let urlParams = urlHelpers.createdURLQueryObj(params.tabID, params.page);
   result = await apiService.callAPI({
-    baseURL: 'https://api.punkapi.com/v2/', //process.env.BASE_URL
-    url: 'beers', //process.env.BEERS_URL
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+    url: process.env.NEXT_PUBLIC_BEERS_URL,
     params: urlParams, // todo: check the naming later
+    afterSuccess: function () {
+      const toastsContainerRoot = createRoot(
+        //@ts-ignore
+        document.getElementById('toasts-container')
+      );
+
+      toastsContainerRoot.render(
+        <Toast role='success' msgs={'products succesfully loaded'} />
+      );
+    },
   });
   return result;
 };

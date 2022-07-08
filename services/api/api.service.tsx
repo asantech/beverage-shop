@@ -3,6 +3,10 @@ import axios from 'axios';
 import store from '../../store/index';
 import * as reqActions from '../../store/api/req.slice';
 
+import { createRoot } from 'react-dom/client';
+
+import Toast from './../../components/common/toasts/Toast';
+
 interface APICfg {
   baseURL: any; // todo: fix later
   url: any; // todo: fix later
@@ -14,6 +18,18 @@ interface APICfg {
   afterFail?: any;
   afterDone?: any;
 }
+
+axios.interceptors.response.use(undefined, error => {
+  //@ts-ignore
+  const toastsContainerRoot = createRoot(
+    //@ts-ignore
+    document.getElementById('toasts-container')
+  );
+
+  toastsContainerRoot.render(<Toast msgs={error.message} />);
+
+  return Promise.reject(error);
+});
 
 export const callAPI = async (cfg: APICfg) => {
   const {
@@ -45,6 +61,6 @@ export const callAPI = async (cfg: APICfg) => {
   } catch (err) {
     afterFail && afterFail(err);
     afterDone && afterDone();
-    store.dispatch(reqActions.actions.loadReqEnd);
+    store.dispatch(reqActions.actions.loadReqEnd());
   }
 };

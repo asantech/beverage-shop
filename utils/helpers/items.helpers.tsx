@@ -1,12 +1,4 @@
-import { has, isEmpty } from 'lodash';
-
-export function hasListItems(beverageLists: any, currentTabID: string) {
-  const hasListProp = has(beverageLists, [currentTabID, 'list']);
-  return !hasListProp ||
-    (hasListProp && isEmpty(beverageLists[currentTabID].list))
-    ? false
-    : true;
-}
+import { has } from 'lodash';
 
 export function getCurrentPage(beverageLists: any, currentTabID: string) {
   return has(beverageLists, [currentTabID, 'page'])

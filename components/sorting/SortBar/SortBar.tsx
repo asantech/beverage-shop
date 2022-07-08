@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-import * as beverageActions from './../../../store/entities/beverages/beverages.slice';
+import * as productsActions from '../../../store/entities/products/products.slice';
 
 import Btn from '../../common/buttons/Button';
 import SortIcon from './SortIcon';
 
 function SortBar(props: any) {
   const { currentTabID, categories: productCategories } = useSelector(
-    (state: any) => state.beverages
+    (state: any) => state.products
   );
   const { by, order } = props.sort;
 
@@ -24,12 +24,12 @@ function SortBar(props: any) {
       order: newSortOrder,
     };
 
-    beverageActions.setSort({
+    productsActions.setSort({
       id: currentTabID,
       sort: newSort,
     });
 
-    beverageActions.setData({
+    productsActions.setData({
       id: currentTabID,
       list: productCategories[currentTabID].list,
       page: productCategories[currentTabID].page,

@@ -10,9 +10,6 @@ const nextConfig = {
   images: {
     domains: ['images.punkapi.com'],
   },
-  env: {
-    customKey: 'my-value',
-  },
 };
 
 module.exports = nextConfig;

@@ -1,18 +1,18 @@
 import Link from 'next/link';
-import type { NavLink } from '../../../../utils/constants/navbar.constants';
+import type { PageLinkSettings } from '../../../../utils/constants/navbar.constants';
 
 function Navbar({
   navLinks,
   brand,
 }: {
-  navLinks: Readonly<NavLink[]>;
+  navLinks: Readonly<PageLinkSettings[]>;
   brand?: string;
 }) {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light px-3'>
       {brand && <div className='navbar-brand'>{brand}</div>}
       <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
-        {navLinks.map((navLink: NavLink) => {
+        {navLinks.map((navLink: PageLinkSettings) => {
           const { path, lbl } = navLink;
           return (
             <li key={path} className='nav-item mx-2'>

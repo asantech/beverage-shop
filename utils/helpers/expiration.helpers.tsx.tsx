@@ -10,7 +10,7 @@ export function setExpirableDataToStorage(key: string, val: any): void {
   const { data, expirationDuration } = val;
   const stringifiedData: string = JSON.stringify({
     data,
-    expirationTime: expirationDuration ? (now() + expirationDuration * 1000) : 0,
+    expirationTime: expirationDuration ? now() + expirationDuration * 1000 : 0,
   });
   setStoredVal(key, stringifiedData);
 }

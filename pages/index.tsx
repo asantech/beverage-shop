@@ -1,24 +1,25 @@
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { isEmpty } from 'lodash';
 
-import TabsNav from '../components/common/tabs/TabsNav';
-import TabContent from '../components/common/tabs/TabContent';
-import Pagination from '../components/layout/navigation/pagination/Pagination';
-
-import * as beverageActions from '../store/entities/beverages/beverages.slice';
+import * as productActions from '../store/entities/products/products.slice';
 import * as favoriteActions from '../store/entities/favorites/favorites.slice';
 import * as cartActions from '../store/entities/cart/cart.slice';
 
-import * as beverageConsts from '../utils/constants/beverages.constants';
+import * as productsConsts from '../utils/constants/product.constants';
 
 import * as itemsHelpers from '../utils/helpers/items.helpers';
 import * as storageHelpers from '../utils/helpers/storage.helpers';
 import * as expirationHelpers from '../utils/helpers/expiration.helpers.tsx';
 
-interface BeverageSliceData {
+import TabsNav from '../components/common/tabs/TabsNav';
+import TabContent from '../components/common/tabs/TabContent';
+import Pagination from '../components/layout/navigation/pagination/Pagination';
+
+interface ProductCategoryData {
   currentTabID: string;
   categories: any;
 }
@@ -26,8 +27,8 @@ interface BeverageSliceData {
 const Home: NextPage = () => {
   const router = useRouter();
 
-  const { currentTabID, categories: productCategories }: BeverageSliceData =
-    useSelector((state: any) => state.beverages);
+  const { currentTabID, categories: productCategories }: ProductCategoryData =
+    useSelector((state: any) => state.products);
 
   const currentPage = itemsHelpers.getCurrentPage(
     productCategories,
@@ -40,16 +41,16 @@ const Home: NextPage = () => {
       currentTabID === 'pizza' ||
       currentTabID === 'steak'
     ) {
-      beverageActions.setCurrentTab({
+      productActions.setCurrentTab({
         id: currentTabID,
       });
 
       (async () => {
-        let result = await beverageActions.loadData({
+        let result = await productActions.loadData({
           tabID: currentTabID,
           page: currentPage,
         });
-        beverageActions.setData({
+        productActions.setData({
           id: currentTabID,
           list: result,
           page: currentPage,
@@ -73,16 +74,16 @@ const Home: NextPage = () => {
       productCategories,
       currentTabID
     );
-    beverageActions.setCurrentTab({
+    productActions.setCurrentTab({
       id: currentTabID,
     });
 
-    let result = await beverageActions.loadData({
+    let result = await productActions.loadData({
       tabID: currentTabID,
       page: currentPage,
     });
 
-    beverageActions.setData({
+    productActions.setData({
       id: currentTabID,
       list: result,
       page: currentPage,
@@ -90,9 +91,22 @@ const Home: NextPage = () => {
     });
   }
 
-  const hasCurrentListItems = itemsHelpers.hasListItems(
-    productCategories,
-    currentTabID
+  async function onPageBtnClickHandler(currentPage: number) {
+    let result = await productActions.loadData({
+      tabID: currentTabID,
+      page: currentPage,
+    });
+
+    productActions.setData({
+      id: currentTabID,
+      list: result,
+      page: currentPage,
+      sort: productCategories[currentTabID].sort,
+    });
+  }
+
+  const isListItemsEmpty: boolean = isEmpty(
+    productCategories[currentTabID].list
   );
 
   return (
@@ -101,27 +115,17 @@ const Home: NextPage = () => {
         <title>Home</title>
       </Head>
       <TabsNav
-        links={beverageConsts.beveragesNavLinks}
+        links={productsConsts.categoriesSettings}
         navItemOnClickHandler={onNavItemClickHandler}
       />
 
-      {<TabContent tabs={beverageConsts.beveragesNavLinks} />}
+      {<TabContent tabs={productsConsts.categoriesSettings} />}
       <Pagination
         page={currentPage}
-        onPageItemClick={async (currentPage: number) => {
-          let result = await beverageActions.loadData({
-            tabID: currentTabID,
-            page: currentPage,
-          });
-
-          beverageActions.setData({
-            id: currentTabID,
-            list: result,
-            page: currentPage,
-            sort: productCategories[currentTabID].sort,
-          });
-        }}
-        nextBtnDisabled={!hasCurrentListItems}
+        onPageItemClick={(currentPage: number) =>
+          onPageBtnClickHandler(currentPage)
+        }
+        nextBtnDisabled={!isListItemsEmpty}
       />
     </>
   );

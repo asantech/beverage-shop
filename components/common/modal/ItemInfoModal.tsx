@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { map } from 'lodash';
+import { map, pick } from 'lodash';
 
 import Image from 'next/image';
 import Btn from '../buttons/Button';
@@ -50,13 +50,13 @@ function ItemInfoModal(props: any) {
     setIsInCartState(isInCart);
   }
 
-  const mappedDetails = (({ name, tagline, abv, description, srm }) => ({
-    name,
-    tagline,
-    abv,
-    description,
-    srm,
-  }))(details);
+  const pickedDetails = pick(details, [
+    'name',
+    'tagline',
+    'abv',
+    'description',
+    'srm',
+  ]);
 
   if (showModal === false) return <></>;
 
@@ -99,7 +99,7 @@ function ItemInfoModal(props: any) {
                   />
                 )}
               </div>
-              {map(mappedDetails, (detail: any, i: number) => (
+              {map(pickedDetails, (detail: any, i: number) => (
                 <p key={i} className='mb-1'>
                   <span className='fw-bold'>{i}</span> : {detail}
                 </p>

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
@@ -10,9 +10,9 @@ import * as cartActions from './../../../store/entities/cart/cart.slice';
 import ItemInfoModal from '../modal/ItemInfoModal';
 
 export type CardDetails = {
+  addiClassName?: string;
   id: string;
   image_url: string;
-  addiClassName?: string;
   name: string;
   tagline: string;
   abv: number;
@@ -93,24 +93,26 @@ function Card(props: CardDetails) {
       </div>
 
       <div className='card-body text-center px-0'>
-        {image_url && (
-          <Image
-            src={image_url}
-            alt={name}
-            width={100}
-            height={150}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
-          />
-        )}
-        {!image_url && (
-          <div
-            className='empty-img-placeholder bg-light text-muted rounded-3 d-flex justify-content-center align-items-center mb-2'
-            style={{ minHeight: '150px' }}
-          >
-            no image
-          </div>
-        )}
+        <div className='img-container' style={{ minHeight: '150px' }}>
+          {image_url && (
+            <Image
+              src={image_url}
+              alt={name}
+              width={100}
+              height={150}
+              // blurDataURL="data:..." automatically provided
+              // placeholder="blur" // Optional blur-up while loading
+            />
+          )}
+          {!image_url && (
+            <div
+              className='empty-img-placeholder bg-light text-muted rounded-3 d-flex justify-content-center align-items-center'
+              style={{ height: '150px' }}
+            >
+              no image
+            </div>
+          )}
+        </div>
         <h5 className='card-title h5'>
           {name}-<span className='h6 text-muted'>({abv})</span>
         </h5>

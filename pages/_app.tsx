@@ -15,7 +15,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-      <div id='toasts-container'></div>
+      <div
+        id='toasts-container'
+        className='toast-container position-absolute bottom-0 end-0 p-3'
+      ></div>
     </Provider>
   );
 }

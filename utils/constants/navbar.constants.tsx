@@ -1,9 +1,9 @@
-export interface NavLink {
+export interface PageLinkSettings {
   lbl: string;
   path: string;
 }
 
-export const navLinks: Readonly<NavLink[]> = Object.freeze([
+export const navLinks: Readonly<PageLinkSettings[]> = Object.freeze([
   {
     lbl: 'Home',
     path: '/',
