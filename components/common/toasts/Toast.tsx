@@ -10,18 +10,18 @@ interface ToastProps {
 function Toast(props: ToastProps) {
   const { role = 'alert', msgs } = props;
   const [isShown, setIsShown] = useState(true);
-  let setTimeoutID: any;
+  // let setTimeoutID: any;
 
-  const toastBGColorClassName = role === 'alert' ? ' bg-danger' : ' bg-success';
+  const toastColorClassName = role === 'alert' ? 'danger' : 'success';
 
-  // useEffect(() => {
+  // useEffect(() => { // todo: fix later
   //   setTimeoutID = setTimeout(() => {
   //     delToastHandler();
   //   }, 5000);
   // }, []);
 
   function delToastHandler() {
-    clearTimeout(setTimeoutID);
+    // clearTimeout(setTimeoutID);
     setIsShown(false);
   }
   if (!isShown) return <></>;
@@ -33,7 +33,12 @@ function Toast(props: ToastProps) {
       aria-live='assertive'
       aria-atomic='true'
     >
-      <div className={'toast-header text-white' + toastBGColorClassName}>
+      <div
+        className={
+          'toast-header text-white bg-gradient' +
+          ` bg-${toastColorClassName} border-${toastColorClassName}`
+        }
+      >
         <strong className='me-auto'>{role}</strong>
         <small>just now</small>
         <Btn
@@ -43,7 +48,7 @@ function Toast(props: ToastProps) {
           onClickHandler={delToastHandler}
         />
       </div>
-      <div className={'toast-body' + toastBGColorClassName}>
+      <div className={'toast-body bg-gradient' + ` bg-${toastColorClassName}`}>
         <span>{msgs}</span>
       </div>
     </div>

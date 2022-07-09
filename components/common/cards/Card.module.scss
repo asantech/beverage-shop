@@ -1,0 +1,28 @@
+.card {
+  width: 210px;
+}
+
+.card .img-container {
+  min-height: 150px;
+}
+
+.card .empty-img-placeholder {
+  height: 150px;
+}
+
+.card .lines-limited {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.card .card-title {
+  -webkit-line-clamp: 2;
+  height: 40px;
+}
+
+.card .card-text {
+  -webkit-line-clamp: 3;
+  height: 70px;
+  font-size: 15px;
+}

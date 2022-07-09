@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import store from '../../index';
-import * as expirationHelpers from './../../../utils/helpers/expiration.helpers.tsx';
+import * as expirationHelpers from '../../../utils/helpers/expiration.helpers';
 import storageConsts from './../../../utils/constants/storage.constants';
 
 interface InitialState {

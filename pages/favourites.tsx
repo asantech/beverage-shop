@@ -13,7 +13,7 @@ function Favourites() {
         <title>Favourites</title>
       </Head>
       <h1>Favourites</h1>
-      <div className='d-flex flex-wrap justify-content-center'>
+      <div className='d-flex flex-wrap justify-content-center align-items-start const-height-container'>
         {!hasCurrentListItems && (
           <div className='alert alert-danger mt-5' role='alert'>
             <div className='h4'>no products in favourites...</div>

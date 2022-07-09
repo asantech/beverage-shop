@@ -1,0 +1,23 @@
+.expandable-desc-box {
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.expandable-desc-box.expanded {
+  max-height: inherit;
+}
+
+.expandable-desc-box .expand-btn,
+.expandable-desc-box .collapse-btn {
+  bottom: 0;
+  left: calc(50% - 16px);
+}
+
+.expandable-desc-box .expand-btn {
+  z-index:1;
+}
+
+.expandable-desc-box .blurred-overlay {
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.5);
+}

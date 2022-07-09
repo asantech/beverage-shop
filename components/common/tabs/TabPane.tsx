@@ -27,7 +27,7 @@ function TabPane(props: any) {
   return (
     <div
       className={
-        'tab-pane fade pt-4 px-5 pb-4' +
+        'tab-pane fade p-4' +
         (currentTabID === tabID
           ? ' show active d-flex flex-wrap justify-content-center'
           : '')

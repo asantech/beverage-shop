@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { pick } from 'lodash';
 
 import SwitchableIcon from '../icons/SwitchableIcon';
 import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
@@ -8,6 +9,8 @@ import * as cartActions from './../../../store/entities/cart/cart.slice';
 import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
 
 import ItemInfoModal from '../modal/ItemInfoModal';
+
+import styles from './Card.module.scss';
 
 export type CardDetails = {
   addiClassName?: string;
@@ -21,18 +24,17 @@ export type CardDetails = {
 };
 
 function Card(props: CardDetails) {
-  const { id, image_url, name, tagline, abv, description, srm, addiClassName } =
-    props;
+  const { id, image_url, name, description, abv, addiClassName } = props;
 
-  const productDetails = {
-    id,
-    name,
-    tagline,
-    abv,
-    description,
-    srm,
-    image_url,
-  };
+  const productDetails = pick(props, [
+    'id',
+    'name',
+    'tagline',
+    'abv',
+    'description',
+    'srm',
+    'image_url',
+  ]);
 
   const [isFavorite, setIsFavorite] = useState(
     favoriteActions.isFavorite({ id })
@@ -65,8 +67,7 @@ function Card(props: CardDetails) {
   return (
     <div
       id={id}
-      className={'card ' + addiClassName ?? ''}
-      style={{ width: '200px' }}
+      className={styles['card'] + ' card ' + addiClassName ?? ''}
       onClick={cardOnClickHandler}
     >
       <div className='d-flex'>
@@ -89,8 +90,8 @@ function Card(props: CardDetails) {
         />
       </div>
 
-      <div className='card-body text-center px-0'>
-        <div className='img-container' style={{ minHeight: '150px' }}>
+      <div className='card-body px-0'>
+        <div className={styles['img-container'] + ' text-center mb-3'}>
           {image_url && (
             <Image
               src={image_url}
@@ -103,17 +104,30 @@ function Card(props: CardDetails) {
           )}
           {!image_url && (
             <div
-              className='empty-img-placeholder bg-light text-muted rounded-3 d-flex justify-content-center align-items-center'
-              style={{ height: '150px' }}
+              className={
+                styles['empty-img-placeholder'] +
+                ' bg-light text-muted rounded-3 d-flex justify-content-center align-items-center mb-3'
+              }
             >
               no image
             </div>
           )}
         </div>
-        <h5 className='card-title h5'>
-          {name}-<span className='h6 text-muted'>({abv})</span>
+        <h5
+          className={
+            `${styles['card-title']} ${styles['lines-limited']}` +
+            ' card-title h6 fw-bold mb-1'
+          }
+        >
+          {name}-<span className='fw-light text-muted'>({abv})</span>
         </h5>
-        <p className='card-text'>{tagline}</p>
+        <p
+          className={
+            `${styles['card-text']} ${styles['lines-limited']}` + ' card-text'
+          }
+        >
+          {description}
+        </p>
       </div>
     </div>
   );

@@ -10,14 +10,20 @@ function Cart() {
   const cartList = useSelector((state: any) => state.cart.list);
   const isCartEmpty: boolean = isEmpty(cartList);
 
+  const totalPrice = cartList.reduce((prevVal: any, currentVal: any) => {
+    return (prevVal ?? 0) + (currentVal ? currentVal.srm : 0);
+  }, 0);
+
   return (
     // todo: get from the page settings cont obj
     <div>
       <Head>
         <title>Cart</title>
       </Head>
-      <h1>Cart</h1>
-      <div className='d-flex flex-wrap justify-content-center'>
+      <h1>
+        Cart <span className='h4'>( Total Price: {totalPrice} )</span>
+      </h1>
+      <div className='d-flex flex-wrap justify-content-center align-items-start const-height-container'>
         {isCartEmpty && <Alert msgs='no products in cart...' />}
         {!isCartEmpty && // todo: get the alert msg (up there) from the consts file
           cartList.map(

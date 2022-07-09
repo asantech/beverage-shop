@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+
 import Head from 'next/head';
 import { isEmpty } from 'lodash';
 
@@ -13,7 +14,8 @@ import * as productsConsts from '../utils/constants/products.constants';
 
 import * as itemsHelpers from '../utils/helpers/items.helpers';
 import * as storageHelpers from '../utils/helpers/storage.helpers';
-import * as expirationHelpers from '../utils/helpers/expiration.helpers.tsx';
+import * as expirationHelpers from '../utils/helpers/expiration.helpers';
+import * as urlHelpers from '../utils/helpers/url.helpers';
 
 import TabsNav from '../components/common/tabs/TabsNav';
 import TabContent from '../components/common/tabs/TabContent';
@@ -36,6 +38,13 @@ const Home: NextPage = () => {
   );
 
   useEffect(() => {
+    let { food: currentTabID, page: currentPage }: any = Object.fromEntries(
+      new URLSearchParams(location.search)
+    );
+
+    isEmpty(currentTabID) && (currentTabID = '');
+    isEmpty(currentPage) ? (currentPage = 1) : (currentPage = +currentPage);
+
     if (
       currentTabID === '' ||
       currentTabID === 'pizza' ||
@@ -89,6 +98,14 @@ const Home: NextPage = () => {
       page: currentPage,
       sort: productCategories[currentTabID].sort,
     });
+
+    router.push(
+      urlHelpers.convertObjToURLQueryStr(
+        urlHelpers.createdURLQueryObj(currentTabID, currentPage)
+      ),
+      undefined,
+      { shallow: true }
+    );
   }
 
   async function onPageBtnClickHandler(currentPage: number) {
@@ -103,6 +120,14 @@ const Home: NextPage = () => {
       page: currentPage,
       sort: productCategories[currentTabID].sort,
     });
+
+    router.push(
+      urlHelpers.convertObjToURLQueryStr(
+        urlHelpers.createdURLQueryObj(currentTabID, currentPage)
+      ),
+      undefined,
+      { shallow: true }
+    );
   }
 
   const isListItemsEmpty: boolean = isEmpty(
@@ -125,7 +150,7 @@ const Home: NextPage = () => {
         onPageItemClick={(currentPage: number) =>
           onPageBtnClickHandler(currentPage)
         }
-        nextBtnDisabled={!isListItemsEmpty}
+        nextBtnDisabled={isListItemsEmpty}
       />
     </>
   );

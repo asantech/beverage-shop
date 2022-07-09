@@ -14,3 +14,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.const-height-container {
+  min-height: 350px;
+  max-height: 350px;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}

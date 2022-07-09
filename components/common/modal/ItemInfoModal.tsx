@@ -3,6 +3,7 @@ import { map, pick } from 'lodash';
 
 import Image from 'next/image';
 import Btn from '../buttons/Button';
+import ExpandableDescBox from '../../custom/expandableDescBox/ExpandableDescBox';
 
 import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
 import * as cartActions from './../../../store/entities/cart/cart.slice';
@@ -98,11 +99,16 @@ function ItemInfoModal(props: any) {
                   />
                 )}
               </div>
-              {map(pickedDetails, (detail: any, i: number) => (
-                <p key={i} className='mb-1'>
-                  <span className='fw-bold'>{i}</span> : {detail}
-                </p>
-              ))}
+              {map(pickedDetails, (detail: any, i: string) =>
+                i !== 'description' ? (
+                  <p key={i} className='mb-1'>
+                    <span className='fw-bold'>{i === 'srm' ? 'price' : i}</span>{' '}
+                    : {detail}
+                  </p>
+                ) : (
+                  <ExpandableDescBox key={i} txt={detail} />
+                )
+              )}
             </div>
             <div className='modal-footer'>
               {!isFavorite ? (
