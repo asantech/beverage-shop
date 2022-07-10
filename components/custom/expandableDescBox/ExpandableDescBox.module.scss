@@ -1,12 +1,11 @@
 .expandable-desc-box {
   max-height: 100px;
   overflow: hidden;
-  transition: max-height 0.5s;
 }
 
 .expandable-desc-box.expanded {
   max-height: 10000px;
-  transition: max-height 0.7s ease-in;
+  transition: max-height 2s ease-in;
 }
 
 .expandable-desc-box .expand-btn,

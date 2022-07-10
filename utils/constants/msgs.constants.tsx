@@ -1,6 +1,6 @@
 export default Object.freeze({
   products: {
-    loadSuccess: "This user isn't in the users list with this id",
+    loadSuccess: 'products are loaded successfully',
   },
   cart: {
     isEmpty: 'no products in cart ...',
