@@ -14,6 +14,39 @@ function ExpandableDescBox(props: ExpandableDescBoxProps) {
   const [isExpandable, setIsExpandable] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const btnsJSX = (
+    <>
+      {!isExpanded && (
+        <>
+          <Btn
+            className={
+              styles['expand-btn'] + ' btn btn-sm btn-light position-absolute'
+            }
+            onClickHandler={toggleCollapseStateHandler}
+          >
+            <i className='bi bi-caret-down-fill'></i>
+          </Btn>
+          <div
+            className={
+              styles['blurred-overlay'] +
+              ' position-absolute bottom-0 container-fluid'
+            }
+          ></div>
+        </>
+      )}
+      {isExpanded && (
+        <Btn
+          className={
+            styles['collapse-btn'] + ' btn btn-sm btn-light position-absolute'
+          }
+          onClickHandler={toggleCollapseStateHandler}
+        >
+          <i className='bi bi-caret-up-fill'></i>
+        </Btn>
+      )}
+    </>
+  );
+
   function toggleCollapseStateHandler() {
     setIsExpanded(!isExpanded);
   }
@@ -33,40 +66,7 @@ function ExpandableDescBox(props: ExpandableDescBoxProps) {
       <div ref={txtRef} className={'txt' + (isExpanded ? ' pb-4' : '')}>
         {props.txt}
       </div>
-      {isExpandable && (
-        <>
-          {!isExpanded && (
-            <>
-              <Btn
-                className={
-                  styles['expand-btn'] +
-                  ' btn btn-sm btn-light position-absolute'
-                }
-                onClickHandler={toggleCollapseStateHandler}
-              >
-                <i className='bi bi-caret-down-fill'></i>
-              </Btn>
-              <div
-                className={
-                  styles['blurred-overlay'] +
-                  ' position-absolute bottom-0 container-fluid'
-                }
-              ></div>
-            </>
-          )}
-          {isExpanded && (
-            <Btn
-              className={
-                styles['collapse-btn'] +
-                ' btn btn-sm btn-light position-absolute'
-              }
-              onClickHandler={toggleCollapseStateHandler}
-            >
-              <i className='bi bi-caret-up-fill'></i>
-            </Btn>
-          )}
-        </>
-      )}
+      {isExpandable && btnsJSX}
     </div>
   );
 }

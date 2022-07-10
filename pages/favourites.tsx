@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux';
 
 import Head from 'next/head';
 import Card from '../components/common/cards/Card';
+import Alert from '../components/common/alerts/Alert';
+import msgsConstants from '../utils/constants/msgs.constants';
 
 function Favourites() {
   const favoritesList = useSelector((state: any) => state.favorites.list);
@@ -15,9 +17,7 @@ function Favourites() {
       <h1>Favourites</h1>
       <div className='d-flex flex-wrap justify-content-center align-items-start const-height-container'>
         {!hasCurrentListItems && (
-          <div className='alert alert-danger mt-5' role='alert'>
-            <div className='h4'>no products in favourites...</div>
-          </div>
+          <Alert msgs={msgsConstants.favorites.isEmpty} />
         )}
         {hasCurrentListItems &&
           favoritesList.map(

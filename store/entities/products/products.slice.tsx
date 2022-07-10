@@ -7,6 +7,8 @@ import * as apiService from '../../../services/api/api.service';
 import * as urlHelpers from '../../../utils/helpers/url.helpers';
 import * as itemHelpers from '../../../utils/helpers/items.helpers';
 
+import msgsConstants from '../../../utils/constants/msgs.constants';
+
 import Toast from '../../../components/common/toasts/Toast';
 
 import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
@@ -104,6 +106,7 @@ export const setData = (params: any) => {
 
 export const loadData = async (params: any) => {
   // todo: should this be here or at beverage service?
+
   let result;
   let urlParams = urlHelpers.createdURLQueryObj(params.tabID, params.page);
   result = await apiService.callAPI({
@@ -113,7 +116,9 @@ export const loadData = async (params: any) => {
     afterSuccess: function () {
       rootElementsHelpers
         .getRootElement('toastsContainer')
-        .render(<Toast role='success' msgs={'products succesfully loaded'} />);
+        .render(
+          <Toast role='success' msgs={msgsConstants.products.loadSuccess} />
+        );
     },
   });
   return result;

@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
+import { isEmpty } from 'lodash';
 
 import Head from 'next/head';
 import Card from '../components/common/cards/Card';
 import Alert from '../components/common/alerts/Alert';
 
-import { isEmpty } from 'lodash';
+import msgsConstants from '../utils/constants/msgs.constants';
 
 function Cart() {
   const cartList = useSelector((state: any) => state.cart.list);
@@ -15,7 +16,6 @@ function Cart() {
   }, 0);
 
   return (
-    // todo: get from the page settings cont obj
     <div>
       <Head>
         <title>Cart</title>
@@ -24,8 +24,8 @@ function Cart() {
         Cart <span className='h4'>( Total Price: {totalPrice} )</span>
       </h1>
       <div className='d-flex flex-wrap justify-content-center align-items-start const-height-container'>
-        {isCartEmpty && <Alert msgs='no products in cart...' />}
-        {!isCartEmpty && // todo: get the alert msg (up there) from the consts file
+        {isCartEmpty && <Alert msgs={msgsConstants.cart.isEmpty} />}
+        {!isCartEmpty &&
           cartList.map(
             (
               itemDetails: any // todo: set the type later on

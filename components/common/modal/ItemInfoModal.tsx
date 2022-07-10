@@ -4,9 +4,13 @@ import { map, pick } from 'lodash';
 import Image from 'next/image';
 import Btn from '../buttons/Button';
 import ExpandableDescBox from '../../custom/expandableDescBox/ExpandableDescBox';
+import Toast from '../toasts/Toast';
 
 import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
 import * as cartActions from './../../../store/entities/cart/cart.slice';
+
+import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
+import msgsConstants from '../../../utils/constants/msgs.constants';
 
 function ItemInfoModal(props: any) {
   const modalRef: any = useRef();
@@ -28,6 +32,9 @@ function ItemInfoModal(props: any) {
     const isFavorite = favoriteActions.isFavorite({ id: details.id });
     setIsFavorite(isFavorite);
     setIsFavoriteState(isFavorite);
+    rootElementsHelpers
+      .getRootElement('toastsContainer')
+      .render(<Toast role='success' msgs={msgsConstants.favorites.added} />);
   }
 
   function delFromFavoriteBtnOnClickHandler() {
@@ -35,6 +42,9 @@ function ItemInfoModal(props: any) {
     const isFavorite = favoriteActions.isFavorite({ id: details.id });
     setIsFavorite(isFavorite);
     setIsFavoriteState(isFavorite);
+    rootElementsHelpers
+      .getRootElement('toastsContainer')
+      .render(<Toast role='success' msgs={msgsConstants.favorites.removed} />);
   }
 
   function addToCartBtnOnClickHandler() {
@@ -42,6 +52,9 @@ function ItemInfoModal(props: any) {
     const isInCart = cartActions.isInCart({ id: details.id });
     setIsInCart(isInCart);
     setIsInCartState(isInCart);
+    rootElementsHelpers
+      .getRootElement('toastsContainer')
+      .render(<Toast role='success' msgs={msgsConstants.cart.added} />);
   }
 
   function delFromCartBtnOnClickHandler() {
@@ -49,6 +62,9 @@ function ItemInfoModal(props: any) {
     const isInCart = cartActions.isInCart({ id: details.id });
     setIsInCart(isInCart);
     setIsInCartState(isInCart);
+    rootElementsHelpers
+      .getRootElement('toastsContainer')
+      .render(<Toast role='success' msgs={msgsConstants.cart.removed} />);
   }
 
   const pickedDetails = pick(details, [
@@ -58,6 +74,42 @@ function ItemInfoModal(props: any) {
     'description',
     'srm',
   ]);
+
+  const favoriteBtn = !isFavorite ? (
+    <Btn
+      id='add-to-favorites-btn'
+      className='btn btn-primary'
+      onClickHandler={addToFavoriteBtnOnClickHandler}
+    >
+      <i className='bi-star-fill'></i>
+    </Btn>
+  ) : (
+    <Btn
+      id='remove-from-favorites-btn'
+      className='btn btn-danger'
+      onClickHandler={delFromFavoriteBtnOnClickHandler}
+    >
+      <i className='bi-star-fill'></i>
+    </Btn>
+  );
+
+  const cartBtn = !isInCart ? (
+    <Btn
+      id='add-to-cart-btn'
+      className='btn btn-success'
+      onClickHandler={addToCartBtnOnClickHandler}
+    >
+      <i className='bi-cart-plus-fill'></i>
+    </Btn>
+  ) : (
+    <Btn
+      id='remove-from-cart-btn'
+      className='btn btn-danger'
+      onClickHandler={delFromCartBtnOnClickHandler}
+    >
+      <i className='bi-cart-plus-fill'></i>
+    </Btn>
+  );
 
   if (showModal === false) return <></>;
 
@@ -111,40 +163,8 @@ function ItemInfoModal(props: any) {
               )}
             </div>
             <div className='modal-footer'>
-              {!isFavorite ? (
-                <Btn
-                  id='add-to-favorites-btn'
-                  className='btn btn-primary'
-                  onClickHandler={addToFavoriteBtnOnClickHandler}
-                >
-                  <i className='bi-star-fill'></i>
-                </Btn>
-              ) : (
-                <Btn
-                  id='remove-from-favorites-btn'
-                  className='btn btn-danger'
-                  onClickHandler={delFromFavoriteBtnOnClickHandler}
-                >
-                  <i className='bi-star-fill'></i>
-                </Btn>
-              )}
-              {!isInCart ? (
-                <Btn
-                  id='add-to-cart-btn'
-                  className='btn btn-success'
-                  onClickHandler={addToCartBtnOnClickHandler}
-                >
-                  <i className='bi-cart-plus-fill'></i>
-                </Btn>
-              ) : (
-                <Btn
-                  id='remove-from-cart-btn'
-                  className='btn btn-danger'
-                  onClickHandler={delFromCartBtnOnClickHandler}
-                >
-                  <i className='bi-cart-plus-fill'></i>
-                </Btn>
-              )}
+              {favoriteBtn}
+              {cartBtn}
             </div>
           </div>
         </div>

@@ -15,7 +15,10 @@ import * as productsConsts from '../utils/constants/products.constants';
 import * as itemsHelpers from '../utils/helpers/items.helpers';
 import * as storageHelpers from '../utils/helpers/storage.helpers';
 import * as expirationHelpers from '../utils/helpers/expiration.helpers';
-import * as urlHelpers from '../utils/helpers/url.helpers';
+import {
+  convertObjToURLQueryStr,
+  createdURLQueryObj,
+} from '../utils/helpers/url.helpers';
 
 import TabsNav from '../components/common/tabs/TabsNav';
 import TabContent from '../components/common/tabs/TabContent';
@@ -35,6 +38,10 @@ const Home: NextPage = () => {
   const currentPage = itemsHelpers.getCurrentPage(
     productCategories,
     currentTabID
+  );
+
+  const isListItemsEmpty: boolean = isEmpty(
+    productCategories[currentTabID].list
   );
 
   useEffect(() => {
@@ -100,11 +107,7 @@ const Home: NextPage = () => {
     });
 
     router.push(
-      urlHelpers.convertObjToURLQueryStr(
-        urlHelpers.createdURLQueryObj(currentTabID, currentPage)
-      ),
-      undefined,
-      { shallow: true }
+      convertObjToURLQueryStr(createdURLQueryObj(currentTabID, currentPage))
     );
   }
 
@@ -122,17 +125,9 @@ const Home: NextPage = () => {
     });
 
     router.push(
-      urlHelpers.convertObjToURLQueryStr(
-        urlHelpers.createdURLQueryObj(currentTabID, currentPage)
-      ),
-      undefined,
-      { shallow: true }
+      convertObjToURLQueryStr(createdURLQueryObj(currentTabID, currentPage))
     );
   }
-
-  const isListItemsEmpty: boolean = isEmpty(
-    productCategories[currentTabID].list
-  );
 
   return (
     <>

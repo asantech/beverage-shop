@@ -1,7 +1,6 @@
+import msgsConst from './../utils/constants/msgs.constants';
+import Alert from '../components/common/alerts/Alert';
+
 export default function Custom500() {
-  return (
-    <div className='alert alert-danger mt-5' role='alert'>
-      <div className='h3'>500 - Server-side error occurred</div>
-    </div>
-  );
+  return <Alert msgs={msgsConst.errs[500]} />;
 }
