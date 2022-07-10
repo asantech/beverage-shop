@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import * as productsActions from '../../../store/entities/products/products.slice';
+import * as productsActions from 'store/entities/products/products.slice';
 
-import Btn from '../../common/buttons/Button';
+import Btn from 'components/common/buttons/Button';
 import SortIcon from './SortIcon';
 
 function SortBar(props: any) {

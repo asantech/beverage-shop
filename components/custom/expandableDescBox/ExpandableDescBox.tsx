@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import Btn from './../../common/buttons/Button';
+import Btn from 'components/common/buttons/Button';
 
 import styles from './ExpandableDescBox.module.scss';
 

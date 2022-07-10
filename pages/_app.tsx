@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
-import Layout from '../components/layout/Layout';
-import store from '../store/index';
+import Layout from 'components/layout/Layout';
+import store from 'store/index';
 
-import * as rootElementsHelpers from './../utils/helpers/rootElements.helpers';
+import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
 
-import '../styles/globals.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
+import 'styles/globals.css';
+import 'node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'node_modules/bootstrap-icons/font/bootstrap-icons.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {

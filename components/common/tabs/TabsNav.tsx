@@ -1,8 +1,8 @@
-import Button from '../buttons/Button';
+import Button from 'components/common/buttons/Button';
 
 import { useSelector } from 'react-redux';
 
-import SortBar from './../../sorting/SortBar/SortBar';
+import SortBar from 'components/sorting/SortBar/SortBar';
 
 function TabsNav(props: any) {
   const { currentTabID, categories: productCategories } = useSelector(

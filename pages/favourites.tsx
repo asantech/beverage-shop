@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 
 import Head from 'next/head';
-import Card from '../components/common/cards/Card';
-import Alert from '../components/common/alerts/Alert';
-import msgsConstants from '../utils/constants/msgs.constants';
+import Card from 'components/common/cards/Card';
+import Alert from 'components/common/alerts/Alert';
+import msgsConstants from 'utils/constants/msgs.constants';
 
 function Favourites() {
   const favoritesList = useSelector((state: any) => state.favorites.list);

@@ -6,23 +6,23 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { isEmpty } from 'lodash';
 
-import * as productActions from '../store/entities/products/products.slice';
-import * as favoriteActions from '../store/entities/favorites/favorites.slice';
-import * as cartActions from '../store/entities/cart/cart.slice';
+import * as productActions from 'store/entities/products/products.slice';
+import * as favoriteActions from 'store/entities/favorites/favorites.slice';
+import * as cartActions from 'store/entities/cart/cart.slice';
 
-import * as productsConsts from '../utils/constants/products.constants';
+import * as productsConsts from 'utils/constants/products.constants';
 
-import * as itemsHelpers from '../utils/helpers/items.helpers';
-import * as storageHelpers from '../utils/helpers/storage.helpers';
-import * as expirationHelpers from '../utils/helpers/expiration.helpers';
+import * as itemsHelpers from 'utils/helpers/items.helpers';
+import * as storageHelpers from 'utils/helpers/storage.helpers';
+import * as expirationHelpers from 'utils/helpers/expiration.helpers';
 import {
   convertObjToURLQueryStr,
   createdURLQueryObj,
-} from '../utils/helpers/url.helpers';
+} from 'utils/helpers/url.helpers';
 
-import TabsNav from '../components/common/tabs/TabsNav';
-import TabContent from '../components/common/tabs/TabContent';
-import Pagination from '../components/layout/navigation/pagination/Pagination';
+import TabsNav from 'components/common/tabs/TabsNav';
+import TabContent from 'components/common/tabs/TabContent';
+import Pagination from 'components/layout/navigation/pagination/Pagination';
 
 interface ProductCategoryData {
   currentTabID: string;

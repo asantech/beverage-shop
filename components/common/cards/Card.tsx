@@ -2,13 +2,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { pick } from 'lodash';
 
-import SwitchableIcon from '../icons/SwitchableIcon';
-import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
-import * as cartActions from './../../../store/entities/cart/cart.slice';
+import SwitchableIcon from 'components/common/icons/SwitchableIcon';
+import * as favoriteActions from 'store/entities/favorites/favorites.slice';
+import * as cartActions from 'store/entities/cart/cart.slice';
 
-import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
+import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
 
-import ItemInfoModal from '../modal/ItemInfoModal';
+import ItemInfoModal from 'components/common/modals/ItemInfoModal';
 
 import styles from './Card.module.scss';
 

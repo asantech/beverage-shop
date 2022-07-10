@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import type { CardDetails } from '../cards/Card';
 
-import OverlayedSpinner from '../spinners/OverlayedSpinner';
-import Card from '../cards/Card';
-import Alert from '../alerts/Alert';
+import OverlayedSpinner from 'components/common/spinners/OverlayedSpinner';
+import Card from 'components/common/cards/Card';
+import Alert from 'components/common/alerts/Alert';
 
 let isInitialLoad: boolean = true;
 

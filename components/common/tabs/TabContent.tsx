@@ -1,7 +1,7 @@
 import TabPane from './TabPane';
-import DottedSpinner from '../spinners/DottedSpinner';
+import DottedSpinner from 'components/common/spinners/DottedSpinner';
 
-import styles from './../tabs/TabContent.module.scss';
+import styles from './TabContent.module.scss';
 
 function TabContent(props: any) {
   const { showSpinner, tabs } = props;

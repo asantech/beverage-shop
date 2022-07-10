@@ -4,7 +4,7 @@ import {
   setStoredVal,
   getStoredVal,
   doesStorageKeyExist,
-} from './storage.helpers';
+} from 'utils/helpers/storage.helpers';
 
 export function setExpirableDataToStorage(key: string, val: any): void {
   const { data, expirationDuration } = val;

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import store from '../../index';
-import * as expirationHelpers from '../../../utils/helpers/expiration.helpers';
-import storageConsts from './../../../utils/constants/storage.constants';
+import store from 'store/index';
+import * as expirationHelpers from 'utils/helpers/expiration.helpers';
+import storageConsts from 'utils/constants/storage.constants';
 
 interface InitialState {
   list: any[];

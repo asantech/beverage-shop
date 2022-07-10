@@ -2,15 +2,15 @@ import { useRef, useState } from 'react';
 import { map, pick } from 'lodash';
 
 import Image from 'next/image';
-import Btn from '../buttons/Button';
-import ExpandableDescBox from '../../custom/expandableDescBox/ExpandableDescBox';
-import Toast from '../toasts/Toast';
+import Btn from 'components/common/buttons/Button';
+import ExpandableDescBox from 'components/custom/expandableDescBox/ExpandableDescBox';
+import Toast from 'components/common/toasts/Toast';
 
-import * as favoriteActions from './../../../store/entities/favorites/favorites.slice';
-import * as cartActions from './../../../store/entities/cart/cart.slice';
+import * as favoriteActions from 'store/entities/favorites/favorites.slice';
+import * as cartActions from 'store/entities/cart/cart.slice';
 
-import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
-import msgsConstants from '../../../utils/constants/msgs.constants';
+import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
+import msgsConstants from 'utils/constants/msgs.constants';
 
 function ItemInfoModal(props: any) {
   const modalRef: any = useRef();

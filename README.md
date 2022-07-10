@@ -9,8 +9,9 @@ a simple beverage shop created by next js
 3. Only bootstrap library is used & the "react-bootstrap" library is not used (for more light-weight production code)
 4. "Head" component used for the pages' titles (from next/head)
 5. "Image" component used (from next/image)
-6. custom 404 & 500 page
+6. Custom 404 & 500 page
 7. .env.local is used for "environment variable"
+8. Absolute Imports is used
 
 # General features
 

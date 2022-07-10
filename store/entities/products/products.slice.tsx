@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import store from '../../index';
+import store from 'store/index';
 
-import * as apiService from '../../../services/api/api.service';
+import * as apiService from 'services/api/api.service';
 
-import * as urlHelpers from '../../../utils/helpers/url.helpers';
-import * as itemHelpers from '../../../utils/helpers/items.helpers';
+import * as urlHelpers from 'utils/helpers/url.helpers';
+import * as itemHelpers from 'utils/helpers/items.helpers';
 
-import msgsConstants from '../../../utils/constants/msgs.constants';
+import msgsConstants from 'utils/constants/msgs.constants';
 
-import Toast from '../../../components/common/toasts/Toast';
+import Toast from 'components/common/toasts/Toast';
 
-import * as rootElementsHelpers from './../../../utils/helpers/rootElements.helpers';
+import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
 
 export interface Sort {
   by: 'name' | 'abv';

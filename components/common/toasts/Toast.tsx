@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Btn from '../buttons/Button';
+import Btn from 'components/common/buttons/Button';
 
 interface ToastProps {
   role?: 'alert' | 'success';
@@ -15,7 +15,7 @@ function Toast(props: ToastProps) {
   const toastColorClassName = role === 'alert' ? 'danger' : 'success';
 
   useEffect(() => {
-    // todo: fix later
+    // todo: check later
     setTimeoutID = setTimeout(() => {
       hideToastHandler();
     }, 3000);

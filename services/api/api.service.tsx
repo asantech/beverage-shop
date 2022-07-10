@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import store from '../../store/index';
-import * as reqActions from '../../store/api/req.slice';
+import store from 'store/index';
+import * as reqActions from 'store/api/req.slice';
 
-import msgsConstants from '../../utils/constants/msgs.constants';
+import msgsConstants from 'utils/constants/msgs.constants';
 
-import Toast from './../../components/common/toasts/Toast';
+import Toast from 'components/common/toasts/Toast';
 
-import * as rootElementsHelpers from './../../utils/helpers/rootElements.helpers';
+import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
 
 interface APICfg {
   baseURL: string | undefined; // todo: check why without "undefined" type, typescript gives err

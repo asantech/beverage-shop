@@ -2,10 +2,10 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 import Head from 'next/head';
-import Card from '../components/common/cards/Card';
-import Alert from '../components/common/alerts/Alert';
+import Card from 'components/common/cards/Card';
+import Alert from 'components/common/alerts/Alert';
 
-import msgsConstants from '../utils/constants/msgs.constants';
+import msgsConstants from 'utils/constants/msgs.constants';
 
 function Cart() {
   const cartList = useSelector((state: any) => state.cart.list);
