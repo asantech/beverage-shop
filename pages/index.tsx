@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { isEmpty } from 'lodash';
 
+import * as productServices from 'services/products/products.services';
+
 import * as productActions from 'store/entities/products/products.slice';
 import * as favoriteActions from 'store/entities/favorites/favorites.slice';
 import * as cartActions from 'store/entities/cart/cart.slice';
@@ -62,7 +64,7 @@ const Home: NextPage = () => {
       });
 
       (async () => {
-        let result = await productActions.loadData({
+        let result = await productServices.loadData({
           tabID: currentTabID,
           page: currentPage,
         });
@@ -94,7 +96,7 @@ const Home: NextPage = () => {
       id: currentTabID,
     });
 
-    let result = await productActions.loadData({
+    let result = await productServices.loadData({
       tabID: currentTabID,
       page: currentPage,
     });
@@ -112,7 +114,7 @@ const Home: NextPage = () => {
   }
 
   async function onPageBtnClickHandler(currentPage: number) {
-    let result = await productActions.loadData({
+    let result = await productServices.loadData({
       tabID: currentTabID,
       page: currentPage,
     });

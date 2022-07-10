@@ -39,3 +39,30 @@ export const categories: Readonly<categorySettings[]> = Object.freeze([
     path: '/pizza',
   },
 ]);
+
+export const categoriesInitialStates = Object.freeze({
+  '': {
+    list: [],
+    sort: {
+      by: 'name',
+      order: 'asc',
+    },
+    page: 1,
+  },
+  steak: {
+    list: [],
+    sort: {
+      by: 'name',
+      order: 'asc',
+    },
+    page: 1,
+  },
+  pizza: {
+    list: [],
+    sort: {
+      by: 'name',
+      order: 'asc',
+    },
+    page: 1,
+  },
+});

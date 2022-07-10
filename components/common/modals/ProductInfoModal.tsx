@@ -4,15 +4,14 @@ import { map, pick } from 'lodash';
 import Image from 'next/image';
 import Btn from 'components/common/buttons/Button';
 import ExpandableDescBox from 'components/custom/expandableDescBox/ExpandableDescBox';
-import Toast from 'components/common/toasts/Toast';
 
 import * as favoriteActions from 'store/entities/favorites/favorites.slice';
 import * as cartActions from 'store/entities/cart/cart.slice';
 
-import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
+import { showToast } from 'utils/helpers/notification.helpers';
 import msgsConstants from 'utils/constants/msgs.constants';
 
-function ItemInfoModal(props: any) {
+function ProductInfoModal(props: any) {
   const modalRef: any = useRef();
 
   const { data, setIsFavoriteState, setIsInCartState } = props;
@@ -32,9 +31,10 @@ function ItemInfoModal(props: any) {
     const isFavorite = favoriteActions.isFavorite({ id: details.id });
     setIsFavorite(isFavorite);
     setIsFavoriteState(isFavorite);
-    rootElementsHelpers
-      .getRootElement('toastsContainer')
-      .render(<Toast role='success' msgs={msgsConstants.favorites.added} />);
+    showToast({
+      role: 'success',
+      msgs: msgsConstants.favorites.added,
+    });
   }
 
   function delFromFavoriteBtnOnClickHandler() {
@@ -42,9 +42,10 @@ function ItemInfoModal(props: any) {
     const isFavorite = favoriteActions.isFavorite({ id: details.id });
     setIsFavorite(isFavorite);
     setIsFavoriteState(isFavorite);
-    rootElementsHelpers
-      .getRootElement('toastsContainer')
-      .render(<Toast role='success' msgs={msgsConstants.favorites.removed} />);
+    showToast({
+      role: 'success',
+      msgs: msgsConstants.favorites.removed,
+    });
   }
 
   function addToCartBtnOnClickHandler() {
@@ -52,9 +53,10 @@ function ItemInfoModal(props: any) {
     const isInCart = cartActions.isInCart({ id: details.id });
     setIsInCart(isInCart);
     setIsInCartState(isInCart);
-    rootElementsHelpers
-      .getRootElement('toastsContainer')
-      .render(<Toast role='success' msgs={msgsConstants.cart.added} />);
+    showToast({
+      role: 'success',
+      msgs: msgsConstants.cart.added,
+    });
   }
 
   function delFromCartBtnOnClickHandler() {
@@ -62,9 +64,10 @@ function ItemInfoModal(props: any) {
     const isInCart = cartActions.isInCart({ id: details.id });
     setIsInCart(isInCart);
     setIsInCartState(isInCart);
-    rootElementsHelpers
-      .getRootElement('toastsContainer')
-      .render(<Toast role='success' msgs={msgsConstants.cart.removed} />);
+    showToast({
+      role: 'success',
+      msgs: msgsConstants.cart.removed,
+    });
   }
 
   const pickedDetails = pick(details, [
@@ -120,7 +123,6 @@ function ItemInfoModal(props: any) {
         className='modal fade show'
         id='item-info-modal'
         aria-labelledby='item-info-modal-lbl'
-        tabIndex={-1} // todo: search what is it for
         aria-modal={true}
         style={{ display: 'block' }}
         onClick={(e: any) =>
@@ -131,7 +133,7 @@ function ItemInfoModal(props: any) {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='item-info-modal-lbl'>
-                Beverage Info Modal
+                Product Info Modal
               </h5>
               <Btn
                 className='btn-close'
@@ -177,4 +179,4 @@ function ItemInfoModal(props: any) {
   );
 }
 
-export default ItemInfoModal;
+export default ProductInfoModal;

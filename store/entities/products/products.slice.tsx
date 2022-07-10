@@ -2,16 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import store from 'store/index';
 
-import * as apiService from 'services/api/api.service';
-
-import * as urlHelpers from 'utils/helpers/url.helpers';
 import * as itemHelpers from 'utils/helpers/items.helpers';
 
-import msgsConstants from 'utils/constants/msgs.constants';
-
-import Toast from 'components/common/toasts/Toast';
-
-import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
+import { categoriesInitialStates } from 'utils/constants/products.constants';
 
 export interface Sort {
   by: 'name' | 'abv';
@@ -32,32 +25,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   currentTabID: '',
-  categories: {
-    '': {
-      list: [],
-      sort: {
-        by: 'name',
-        order: 'asc',
-      },
-      page: 1,
-    },
-    steak: {
-      list: [],
-      sort: {
-        by: 'name',
-        order: 'asc',
-      },
-      page: 1,
-    },
-    pizza: {
-      list: [],
-      sort: {
-        by: 'name',
-        order: 'asc',
-      },
-      page: 1,
-    },
-  },
+  categories: categoriesInitialStates,
 };
 
 const slice = createSlice({
@@ -102,26 +70,6 @@ export const setData = (params: any) => {
       page,
     })
   );
-};
-
-export const loadData = async (params: any) => {
-  // todo: should this be here or at beverage service?
-
-  let result;
-  let urlParams = urlHelpers.createdURLQueryObj(params.tabID, params.page);
-  result = await apiService.callAPI({
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-    url: process.env.NEXT_PUBLIC_BEERS_URL,
-    params: urlParams, // todo: check the naming later
-    afterSuccess: function () {
-      rootElementsHelpers
-        .getRootElement('toastsContainer')
-        .render(
-          <Toast role='success' msgs={msgsConstants.products.loadSuccess} />
-        );
-    },
-  });
-  return result;
 };
 
 export const setSort = async (params: any) => {

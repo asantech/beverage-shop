@@ -5,9 +5,7 @@ import * as reqActions from 'store/api/req.slice';
 
 import msgsConstants from 'utils/constants/msgs.constants';
 
-import Toast from 'components/common/toasts/Toast';
-
-import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
+import { showToast } from 'utils/helpers/notification.helpers';
 
 interface APICfg {
   baseURL: string | undefined; // todo: check why without "undefined" type, typescript gives err
@@ -27,16 +25,11 @@ axios.interceptors.response.use(undefined, error => {
     error.response.status >= 400 &&
     error.response.status < 500;
 
-  rootElementsHelpers
-    .getRootElement('toastsContainer')
-    .render(
-      <Toast
-        msgs={
-          (isExpectedError ? '' : msgsConstants.errs.unexpectedErr + '\n') +
-          error.message
-        }
-      />
-    );
+  showToast({
+    msgs:
+      (isExpectedError ? '' : msgsConstants.errs.unexpectedErr + '\n') +
+      error.message,
+  });
 
   return Promise.reject(error);
 });

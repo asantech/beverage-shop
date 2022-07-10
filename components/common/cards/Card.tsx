@@ -8,7 +8,7 @@ import * as cartActions from 'store/entities/cart/cart.slice';
 
 import * as rootElementsHelpers from 'utils/helpers/rootElements.helpers';
 
-import ItemInfoModal from 'components/common/modals/ItemInfoModal';
+import ProductInfoModal from 'components/common/modals/ProductInfoModal';
 
 import styles from './Card.module.scss';
 
@@ -52,7 +52,7 @@ function Card(props: CardDetails) {
 
   function cardOnClickHandler() {
     rootElementsHelpers.getRootElement('modalsContainer').render(
-      <ItemInfoModal
+      <ProductInfoModal
         data={{
           details: productDetails,
         }}
