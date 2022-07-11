@@ -1,4 +1,4 @@
-import type { AppProps } from 'next/app';
+import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import { Provider } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -53,6 +53,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 export default MyApp;
 
-export function reportWebVitals(metric: any) {
+export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.log(metric);
 }

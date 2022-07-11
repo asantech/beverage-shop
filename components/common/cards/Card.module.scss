@@ -21,6 +21,10 @@
   height: 40px;
 }
 
+.card .card-title > span {
+  font-size: 12px;
+}
+
 .card .card-text {
   -webkit-line-clamp: 3;
   height: 70px;

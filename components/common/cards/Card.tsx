@@ -24,7 +24,7 @@ export type CardDetails = {
 };
 
 function Card(props: CardDetails) {
-  const { id, image_url, name, description, abv, addiClassName } = props;
+  const { id, image_url, name, description, abv, srm, addiClassName } = props;
 
   const productDetails = pick(props, [
     'id',
@@ -119,7 +119,10 @@ function Card(props: CardDetails) {
             ' card-title h6 fw-bold mb-1'
           }
         >
-          {name}-<span className='fw-light text-muted'>({abv})</span>
+          {name}{' '}
+          <span className='fw-light text-muted'>
+            ( {abv} - {srm} )
+          </span>
         </h5>
         <p
           className={
