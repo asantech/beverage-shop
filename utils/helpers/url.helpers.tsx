@@ -3,7 +3,7 @@ export function convertObjToURLQueryStr(urlQueryObj: any): string {
     .map(([key, val]) => `${key}=${val}`)
     .join('&');
   return urlQueryStr ? '?' + urlQueryStr : '';
-} // todo: remove if is unnecessary
+}  
 
 export function createdURLQueryObj(tabID: string, page: number) {
   return {
@@ -12,4 +12,4 @@ export function createdURLQueryObj(tabID: string, page: number) {
     })(),
     page: page,
   };
-} // todo: remove if is unnecessary
+}  

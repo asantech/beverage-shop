@@ -54,5 +54,5 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
-  console.log(metric);
+  // console.log(metric);
 }

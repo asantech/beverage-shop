@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import type { CardDetails } from '../cards/Card';
 
-import OverlayedSpinner from 'components/common/spinners/OverlayedSpinner';
 import Card from 'components/common/cards/Card';
 import Alert from 'components/common/alerts/Alert';
 
@@ -11,7 +10,7 @@ let isInitialLoad: boolean = true;
 
 function TabPane(props: any) {
   const { id: tabID } = props.tab;
-  const { loading } = useSelector((state: any) => state.req);
+
   const { categories: productCategories, currentTabID } = useSelector(
     (state: any) => state.products
   );
@@ -36,9 +35,7 @@ function TabPane(props: any) {
       role='tabpanel'
       aria-labelledby={tabID + '-tab'}
     >
-      {loading && <OverlayedSpinner />}
       {isCurrentTab &&
-        !loading &&
         !isInitialLoad &&
         isListItemsEmpty && ( // get alert msg from consts file
           <Alert msgs='no beverages to load...' />

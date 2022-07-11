@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import type { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import Head from 'next/head';
 import { isEmpty } from 'lodash';
+
+import OverlayedSpinner from '../components/common/spinners/OverlayedSpinner';
 
 import * as productServices from 'services/products/products.services';
 
@@ -31,29 +34,25 @@ interface ProductCategoryData {
   categories: any;
 }
 
-const Home: NextPage = () => {
+interface ProductQuery {
+  food?: string;
+  page?: number;
+}
+
+const Home: NextPage = (data: any) => {
   const router = useRouter();
 
-  const { currentTabID, categories: productCategories }: ProductCategoryData =
-    useSelector((state: any) => state.products);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const currentPage = itemsHelpers.getCurrentPage(
-    productCategories,
-    currentTabID
+  const { tabID: currentTabID, page: currentPage, productsList }: any = data;
+
+  const { categories: productCategories }: ProductCategoryData = useSelector(
+    (state: any) => state.products
   );
 
-  const isListItemsEmpty: boolean = isEmpty(
-    productCategories[currentTabID].list
-  );
+  const isListItemsEmpty: boolean = isEmpty(productsList);
 
   useEffect(() => {
-    let { food: currentTabID, page: currentPage }: any = Object.fromEntries(
-      new URLSearchParams(location.search)
-    );
-
-    isEmpty(currentTabID) && (currentTabID = '');
-    isEmpty(currentPage) ? (currentPage = 1) : (currentPage = +currentPage);
-
     if (
       currentTabID === '' ||
       currentTabID === 'pizza' ||
@@ -63,18 +62,12 @@ const Home: NextPage = () => {
         id: currentTabID,
       });
 
-      (async () => {
-        let result = await productServices.loadData({
-          tabID: currentTabID,
-          page: currentPage,
-        });
-        productActions.setData({
-          id: currentTabID,
-          list: result,
-          page: currentPage,
-          sort: productCategories[currentTabID].sort,
-        });
-      })();
+      productActions.setData({
+        id: currentTabID,
+        list: productsList,
+        page: currentPage,
+        sort: productCategories[currentTabID].sort,
+      });
 
       expirationHelpers.initializeExpirableDataToStorage('favorites');
       expirationHelpers.initializeExpirableDataToStorage('cart');
@@ -84,29 +77,16 @@ const Home: NextPage = () => {
     } else {
       router.push('404');
     }
-  }, []);
+    setIsLoading(false);
+  }, [data.tabID, data.page]);
 
   async function onNavItemClickHandler(params: any) {
+    setIsLoading(true);
     const { id: currentTabID } = params;
     const currentPage = itemsHelpers.getCurrentPage(
       productCategories,
       currentTabID
     );
-    productActions.setCurrentTab({
-      id: currentTabID,
-    });
-
-    let result = await productServices.loadData({
-      tabID: currentTabID,
-      page: currentPage,
-    });
-
-    productActions.setData({
-      id: currentTabID,
-      list: result,
-      page: currentPage,
-      sort: productCategories[currentTabID].sort,
-    });
 
     router.push(
       convertObjToURLQueryStr(createdURLQueryObj(currentTabID, currentPage))
@@ -114,18 +94,7 @@ const Home: NextPage = () => {
   }
 
   async function onPageBtnClickHandler(currentPage: number) {
-    let result = await productServices.loadData({
-      tabID: currentTabID,
-      page: currentPage,
-    });
-
-    productActions.setData({
-      id: currentTabID,
-      list: result,
-      page: currentPage,
-      sort: productCategories[currentTabID].sort,
-    });
-
+    setIsLoading(true);
     router.push(
       convertObjToURLQueryStr(createdURLQueryObj(currentTabID, currentPage))
     );
@@ -136,6 +105,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Home</title>
       </Head>
+      {isLoading && <OverlayedSpinner />}
       <TabsNav
         links={productsConsts.categoriesSettings}
         navItemOnClickHandler={onNavItemClickHandler}
@@ -152,5 +122,22 @@ const Home: NextPage = () => {
     </>
   );
 };
+export const getServerSideProps: GetServerSideProps = async context => {
+  const { query }: { query: ProductQuery } = context;
+  const { food, page } = query;
 
+  const urlQueryObj = {
+    tabID: food ?? '',
+    page: page ? +page : 1,
+  };
+
+  const productsList = await productServices.loadData(urlQueryObj);
+
+  return {
+    props: {
+      productsList,
+      ...urlQueryObj,
+    },
+  };
+};
 export default Home;
