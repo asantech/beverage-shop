@@ -6,13 +6,12 @@ a simple beverage shop created by next js
 
 1. "Custom App" & "Single Shared Layout"
 2. Only client side rendering for pages (in this branch)
-3.
-4. "Head" component for the pages' titles (from next/head)
-5. "Image" component (from next/image)
-6. Custom 404 & 500 page
-7. .env.local for "environment variable"
-8. Absolute Imports
-9. reportWebVitals
+3. "Head" component for the pages' titles (from next/head)
+4. "Image" component (from next/image)
+5. Custom 404 & 500 page
+6. .env.local for "environment variable"
+7. Absolute Imports
+8. reportWebVitals
 
 # General features
 
